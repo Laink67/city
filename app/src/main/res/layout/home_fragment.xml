@@ -1,0 +1,142 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp">
+
+            <ImageView
+                android:id="@+id/map_image"
+                style="@style/MenuImages"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/pastelYellow"
+                android:clickable="true"
+                android:focusable="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_map_pin"
+                app:layout_constraintEnd_toStartOf="@+id/guideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/voting_image"
+                style="@style/MenuImages"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="#E7ECFF"
+                android:clickable="true"
+                android:focusable="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_voting"
+                app:layout_constraintEnd_toStartOf="@+id/guideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/map_image" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintGuide_percent="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/district_image"
+                style="@style/MenuImages"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:background="@color/pastelBlue"
+                android:clickable="true"
+                android:focusable="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_district"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_district" />
+
+            <ImageView
+                android:id="@+id/messages_image"
+                style="@style/MenuImages"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="16dp"
+                android:background="#AAB9EC"
+                android:clickable="true"
+                android:focusable="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_request"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/district_image" />
+
+            <ImageView
+                android:id="@+id/idea_image"
+                style="@style/MenuImages"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/pastelPink"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_idea"
+                app:layout_constraintEnd_toStartOf="@+id/guideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/voting_image" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                style="@style/MenuImages"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorRed"
+                android:src="@drawable/ic_education"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/messages_image" />
+
+            <ImageView
+                android:id="@+id/admin_image"
+                style="@style/MenuImages"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="16dp"
+                android:background="#F3FFD0"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_admin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/idea_image" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add" />
+</androidx.constraintlayout.widget.ConstraintLayout>

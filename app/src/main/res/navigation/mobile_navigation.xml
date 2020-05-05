@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/home_dest">
+
+    <fragment
+        android:id="@+id/home_dest"
+        android:name="ru.laink.city.HomeFragment"
+        android:label="HomeFragment">
+        <action
+            android:id="@+id/action_home_dest_to_map"
+            app:destination="@id/map_dest"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_home_dest_to_add_message"
+            app:destination="@id/add_messaage_dest"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/map_dest"
+        android:name="ru.laink.city.MapFragment"
+        android:label="MapFragment" />
+    <fragment
+        android:id="@+id/add_messaage_dest"
+        android:name="ru.laink.city.AddMessageFragment"
+        android:label="AddMessageFragment" />
+
+</navigation>

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">city</string>
+    <string name="title">Название</string>
+    <string name="main_problem">Основная проблема</string>
+    <string name="date">Дата</string>
+    <string name="calendar">Календарь</string>
+    <string name="description">Описание</string>
+    <string name="location">Локация</string>
+    <string name="map">Карта</string>
+    <string name="select_on_map">Выбирите на карте</string>
+    <string name="select_in_calendar">Выбирите в календаре</string>
+    <string name="submit">Отправить</string>
+</resources>

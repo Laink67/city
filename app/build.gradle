@@ -1,0 +1,58 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        applicationId "ru.laink.city"
+        minSdkVersion 23
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        def secretsProperties = new Properties()
+        if (rootProject.file("secrets.properties").exists()) {
+            rootProject.file("secrets.properties")?.withInputStream {
+                secretsProperties.load(it)
+            }
+        }
+        resValue "string", "google_maps_key", (secretsProperties["GOOGLE_MAPS_API_KEY"] ?: "")
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.kotlinVersion"
+
+    implementation "com.google.android.material:material:$rootProject.materialVersion"
+    implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
+    implementation 'androidx.core:core-ktx:1.2.0'
+
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
+
+    // Maps
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+}
