@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "58503692751",
+    "firebase_url": "https://city-276211.firebaseio.com",
+    "project_id": "city-276211",
+    "storage_bucket": "city-276211.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:58503692751:android:c191d75beb8b38293012ba",
+        "android_client_info": {
+          "package_name": "ru.laink.city"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "58503692751-jknr5r6tfn0afjnk8utgb4us6j9mcrc2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.laink.city",
+            "certificate_hash": "d9e155180ad8faa3a9d54f4b7a9ab66087ec48b4"
+          }
+        },
+        {
+          "client_id": "58503692751-0o4qevmftvv6h7d0buvus3mlalcdvn67.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5EHOAZ6BYebnTsp2sZTlAExKPtj4LOvg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "58503692751-0o4qevmftvv6h7d0buvus3mlalcdvn67.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

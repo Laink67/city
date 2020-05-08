@@ -1,33 +1,27 @@
-package ru.laink.city
+package ru.laink.city.ui.fragments
 
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.add_message_fragment.*
+import ru.laink.city.R
 import ru.laink.city.util.Constants.Companion.CAMERA_PERMISSION_CODE
 import ru.laink.city.util.Constants.Companion.CAMERA_REQUEST_CODE
 import ru.laink.city.util.Constants.Companion.GALLERY_REQUEST_CODE
-import java.io.File
-import java.io.IOException
-import java.security.Permission
 import java.text.SimpleDateFormat
 import java.util.*
 

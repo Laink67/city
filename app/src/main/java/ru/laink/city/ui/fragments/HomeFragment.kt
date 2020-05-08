@@ -1,7 +1,5 @@
-package ru.laink.city
+package ru.laink.city.ui.fragments
 
-import android.content.DialogInterface
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.textfield.TextInputEditText
-import kotlinx.android.synthetic.main.add_message_fragment.*
+import ru.laink.city.R
 
 class HomeFragment : Fragment() {
 

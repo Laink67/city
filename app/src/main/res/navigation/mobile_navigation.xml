@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/home_dest">
+    android:label="@string/map"
+    app:startDestination="@id/login_dest">
 
     <fragment
         android:id="@+id/home_dest"
-        android:name="ru.laink.city.HomeFragment"
-        android:label="HomeFragment">
+        android:name="ru.laink.city.ui.fragments.HomeFragment"
+        android:label="Меню"
+        tools:layout="@layout/home_fragment">
         <action
             android:id="@+id/action_home_dest_to_map"
             app:destination="@id/map_dest"
@@ -26,11 +29,26 @@
 
     <fragment
         android:id="@+id/map_dest"
-        android:name="ru.laink.city.MapFragment"
-        android:label="MapFragment" />
+        android:name="ru.laink.city.ui.fragments.MapFragment"
+        android:label="Map"
+        tools:layout="@layout/map_fragment" />
     <fragment
         android:id="@+id/add_messaage_dest"
-        android:name="ru.laink.city.AddMessageFragment"
-        android:label="AddMessageFragment" />
+        android:name="ru.laink.city.ui.fragments.AddMessageFragment"
+        android:label="Добавить заявку"
+        tools:layout="@layout/add_message_fragment" />
+    <fragment
+        android:id="@+id/login_dest"
+        android:name="ru.laink.city.ui.fragments.LoginFragment"
+        android:label="Вход"
+        tools:layout="@layout/login_fragment">
+        <action
+            android:id="@+id/action_login_to_home_dest"
+            app:destination="@id/home_dest"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 
 </navigation>
