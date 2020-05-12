@@ -1,6 +1,5 @@
 package ru.laink.city.firebase
 
-import androidx.paging.PagedList
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await

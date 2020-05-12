@@ -78,9 +78,17 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutineVersion"
 
+    // logging
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
     // WorkManger
     implementation "android.arch.work:work-runtime-ktx:$rootProject.workManagerVersion"
 
+    // Kotlin
+    implementation "androidx.concurrent:concurrent-futures-ktx:1.1.0-alpha01"
+
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
-    implementation 'androidx.paging:paging-runtime-ktx:2.1.0'
+//    implementation 'androidx.paging:paging-runtime-ktx:2.1.0'
+
+    implementation "com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava"
 }

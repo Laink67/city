@@ -13,8 +13,6 @@ import ru.laink.city.R
 import ru.laink.city.adapters.CategoryAdapter
 import ru.laink.city.db.RequestDatabase
 import ru.laink.city.firebase.FirebaseCategoryRepoImpl
-import ru.laink.city.models.Category
-import ru.laink.city.repositories.CategoryRepository
 import ru.laink.city.ui.CategoryViewModelFactory
 import ru.laink.city.ui.viewmodels.CategoryViewModel
 import ru.laink.city.util.Resource

@@ -9,5 +9,7 @@ class Constants {
 
         const val COLLECTION_CATEGORIES = "categories"
         const val COLLECTION_DOCUMENT = "titles"
+
+        const val WORK_NAME = "ru.laink.city.work.RefreshDataWorker"
     }
 }

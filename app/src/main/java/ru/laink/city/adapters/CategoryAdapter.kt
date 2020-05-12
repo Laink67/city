@@ -3,14 +3,12 @@ package ru.laink.city.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.AsyncPagedListDiffer
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.category_item.view.*
 import ru.laink.city.R
 import ru.laink.city.models.Category
-import ru.laink.city.models.Request
 
 class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
