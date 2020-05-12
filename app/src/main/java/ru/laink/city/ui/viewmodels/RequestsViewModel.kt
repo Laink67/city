@@ -1,4 +1,4 @@
-package ru.laink.city.ui
+package ru.laink.city.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import ru.laink.city.repositories.RequestRepository

@@ -19,8 +19,8 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_home_dest_to_add_message"
-            app:destination="@id/add_messaage_dest"
+            android:id="@+id/action_home_to_categories_dest"
+            app:destination="@id/categoriesFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -30,7 +30,7 @@
     <fragment
         android:id="@+id/map_dest"
         android:name="ru.laink.city.ui.fragments.MapFragment"
-        android:label="Map"
+        android:label="@string/map"
         tools:layout="@layout/map_fragment" />
     <fragment
         android:id="@+id/add_messaage_dest"
@@ -45,6 +45,33 @@
         <action
             android:id="@+id/action_login_to_home_dest"
             app:destination="@id/home_dest"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_login_to_registation_dest"
+            app:destination="@id/registration_dest"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/registration_dest"
+        android:name="ru.laink.city.ui.fragments.RegistrationFragment"
+        android:label="Регистрация"
+        tools:layout="@layout/registration_fragment"/>
+    <fragment
+        android:id="@+id/categoriesFragment"
+        android:name="ru.laink.city.ui.fragments.CategoriesFragment"
+        android:label="Категории"
+        tools:layout="@layout/categories_fragment">
+
+        <action
+            android:id="@+id/action_categories_to_add_messaage_dest"
+            app:destination="@id/add_messaage_dest"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"

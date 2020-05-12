@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 
 android {
@@ -54,6 +55,7 @@ dependencies {
 
     // firebase
     implementation 'com.google.firebase:firebase-auth:19.3.1'
+    implementation 'com.google.firebase:firebase-firestore:21.4.3'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -75,5 +77,10 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutineVersion"
+
+    // WorkManger
+    implementation "android.arch.work:work-runtime-ktx:$rootProject.workManagerVersion"
+
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
+    implementation 'androidx.paging:paging-runtime-ktx:2.1.0'
 }

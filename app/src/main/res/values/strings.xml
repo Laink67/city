@@ -12,4 +12,9 @@
     <string name="submit">Отправить</string>
     <string name="mail">Почта</string>
     <string name="password">Пароль</string>
+    <string name="registration_text">У вас нет аккаунта? Зарегистрируйтесь</string>
+    <string name="signIn">Войти</string>
+    <string name="login">Логин</string>
+    <string name="signUp">Зарегистрироваться</string>
+    <string name="error">Ошибка</string>
 </resources>

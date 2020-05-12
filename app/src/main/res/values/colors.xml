@@ -9,4 +9,6 @@
     <color name="grey">#EDEDED</color>
     <color name="colorRed">#E3687B</color>
     <color name="white">#FFFFFF</color>
+    <color name="pastelPrimary">#FFCD67</color>
+    <color name="pastelGreen">#F3FFD0</color>
 </resources>

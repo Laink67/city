@@ -61,11 +61,20 @@
         android:layout_marginTop="8dp"
         android:clickable="true"
         android:focusable="true"
-        android:text="Войти"
+        android:text="@string/signIn"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout3"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout3"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/google_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/login_button"
+        app:layout_constraintStart_toStartOf="@+id/login_button"
+        app:layout_constraintTop_toBottomOf="@+id/login_button" />
 
     <ProgressBar
         android:id="@+id/login_progress"
@@ -78,5 +87,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/registration_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/registration_text"
+        app:layout_constraintEnd_toEndOf="@+id/google_button"
+        app:layout_constraintStart_toStartOf="@+id/google_button"
+        app:layout_constraintTop_toBottomOf="@+id/google_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

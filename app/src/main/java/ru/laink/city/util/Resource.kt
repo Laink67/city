@@ -15,6 +15,7 @@ sealed class Resource<out T, out V>(
     class Error<V>(message: String) : Resource<Nothing, V>(null, message)
     class Loading<T> : Resource<T, Nothing>()
 
+    // to getting body or exception to send error
     companion object Factory{
         inline fun <T> build(function: () -> T): Resource<T,Exception> =
             try {
@@ -23,5 +24,4 @@ sealed class Resource<out T, out V>(
                 Error(e.message!!)
             }
     }
-
 }

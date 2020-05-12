@@ -11,6 +11,7 @@ buildscript {
         constraintLayoutVersion = "2.0.0-beta4"
         roomVersion = "2.2.5"
         coroutineVersion = '1.3.5'
+        workManagerVersion = '2.3.4'
     }
 
     repositories {
@@ -23,6 +24,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath 'com.google.gms:google-services:4.3.3'
         classpath "androidx.room:room-ktx:$roomVersion"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
