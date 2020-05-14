@@ -18,60 +18,33 @@ import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
 class CategoryViewModel(
-    private val firebaseCategoryRepoImpl: FirebaseCategoryRepoImpl,
-/*
-    private val categoryRepository: CategoryRepository,
-*/
-    private val uiContext: CoroutineContext
+    private val firebaseCategoryRepoImpl: FirebaseCategoryRepoImpl
 ) : ViewModel() {
 
-    val categoriesAnswer: MutableLiveData<Resource<List<Category>?, Exception>> = MutableLiveData()
+    private val _categoriesAnswer: MutableLiveData<Resource<List<Category>?, Exception>> =
+        MutableLiveData()
+    val categoriesAnswer: LiveData<Resource<List<Category>?, Exception>> = _categoriesAnswer
+    val localCategories = firebaseCategoryRepoImpl.localCategories
 
-    init {
-        getCategories()
-    }
+//    init {
+//        getCategories()
+//    }
 
     private fun getCategories() = viewModelScope.launch {
-        categoriesAnswer.postValue(Resource.Loading())
+        _categoriesAnswer.postValue(Resource.Loading())
 
         val categoriesResource = firebaseCategoryRepoImpl.getCategories()
 
         if (categoriesResource is Resource.Error) {
-            categoriesAnswer.postValue(categoriesResource)
+            _categoriesAnswer.postValue(categoriesResource)
+        } else {
+            _categoriesAnswer.postValue(Resource.Success(emptyList()))
+//            firebaseCategoryRepoImpl.insertToDb(categoriesResource.data!!)
         }
-        else{
-            categoriesAnswer.postValue(Resource.Success(emptyList()))
-        }
-/*
-        categoriesAnswer.postValue(*/
-/*Resource.build { categoryRepository.categories.value }*//*
-
-            firebaseCategoryRepoImpl.getCategories()
-        )
-*/
     }
 
-    fun getLocalCategories(): LiveData<List<Category>> {
-        getCategories()
-        return firebaseCategoryRepoImpl.getLocalCategory()
-    }
-/*firebaseCategoryRepoImpl.getCategories()*//*
-)
-    }
-*/
-
-/*
-    private fun refreshDataFromRepository() =
-        */
-/*CoroutineScope(uiContext)*//*
-viewModelScope.launch {
-            try {
-                categoryRepository.refreshCategories()
-            } catch (ioException: IOException) {
-                categoriesAnswer.postValue(Resource.Error(ioException.toString()))
-            }
-        }
-*/
-
+//    fun getLocalCategories(): LiveData<List<Category>> = viewModelScope.launch {
+//        firebaseCategoryRepoImpl.getLocalCategory()
+//    }
 
 }

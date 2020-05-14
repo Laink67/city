@@ -8,14 +8,12 @@ import ru.laink.city.repositories.CategoryRepository
 import ru.laink.city.ui.viewmodels.CategoryViewModel
 
 class CategoryViewModelFactory(
-//    private val categoryRepository:CategoryRepository
     private val firebaseCategoryRepoImpl: FirebaseCategoryRepoImpl
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return CategoryViewModel(
-            firebaseCategoryRepoImpl
-            /*categoryRepository*/,
-            Dispatchers.Main
+            firebaseCategoryRepoImpl/*,
+            Dispatchers.Main*/
         ) as T
     }
 }

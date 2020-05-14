@@ -2,27 +2,23 @@ package ru.laink.city.ui.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.laink.city.firebase.FirebaseUserRepoImpl
 import ru.laink.city.models.LoginResult
 import ru.laink.city.models.User
 import ru.laink.city.util.Constants.Companion.GOOGLE_SIGN_IN
 import ru.laink.city.util.Resource
-import kotlin.coroutines.CoroutineContext
 
 class UserViewModel(
-    private val firebaseUserRepoImpl: FirebaseUserRepoImpl,
-    private val uiContext: CoroutineContext
+    private val firebaseUserRepoImpl: FirebaseUserRepoImpl
 ) : ViewModel() {
-    val signInAnswer: MutableLiveData/*SingleLiveEvent*/<Resource<User?, Exception>> =
+    val signInAnswer: MutableLiveData<Resource<User?, Exception>> =
         MutableLiveData()
-        /*SingleLiveEvent()*/
-    val signUpAnswer: MutableLiveData/*SingleLiveEvent*/<Resource<User?, Exception>> =
+    val signUpAnswer: MutableLiveData<Resource<User?, Exception>> =
         MutableLiveData()
-        /*SingleLiveEvent()*/
 
-    fun onSignInResultByGoogle(result: LoginResult) = CoroutineScope(uiContext).launch {
+    fun onSignInResultByGoogle(result: LoginResult) = viewModelScope.launch {
         // Отправить задачу начала работы progressBar
         signInAnswer.postValue(Resource.Loading())
 
@@ -41,7 +37,7 @@ class UserViewModel(
     }
 
     fun onSignInByEmailAndPasswordResult(email: String, password: String) =
-        CoroutineScope(uiContext).launch {
+        viewModelScope.launch {
             signInAnswer.postValue(Resource.Loading())
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
@@ -62,7 +58,7 @@ class UserViewModel(
             }
         }
 
-    fun signUp(login: String, email: String, password: String) = CoroutineScope(uiContext).launch {
+    fun signUp(login: String, email: String, password: String) = viewModelScope.launch {
         signUpAnswer.postValue(Resource.Loading())
 
         if (email.isNotEmpty() && password.isNotEmpty() && login.isNotEmpty()) {

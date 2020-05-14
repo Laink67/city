@@ -5,10 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import ru.laink.city.models.Category
-import ru.laink.city.models.Request
+import ru.laink.city.models.RequestRoom
 
 @Database(
-    entities = [Request::class, Category::class],
+    entities = [RequestRoom::class, Category::class],
     version = 1
 )
 abstract class RequestDatabase : RoomDatabase() {

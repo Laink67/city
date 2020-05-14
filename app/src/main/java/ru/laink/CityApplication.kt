@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.laink.city.util.Constants.Companion.WORK_NAME
 import ru.laink.city.work.RefreshDataWorker
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class CityApplication : Application() {
@@ -28,7 +29,7 @@ class CityApplication : Application() {
             .build()
 */
         // Периодический запрос один раз в час
-        val repeatingRequest = PeriodicWorkRequestBuilder<RefreshDataWorker>(1, TimeUnit.HOURS)
+        val repeatingRequest = PeriodicWorkRequestBuilder<RefreshDataWorker>(1, TimeUnit.DAYS)
 //            .setConstraints(constraints) // Установка ограничений
             .build()
 
@@ -46,9 +47,7 @@ class CityApplication : Application() {
     // Для запуска coroutine
     private fun delayedInit() {
         applicationScope.launch {
-/*
             Timber.plant(Timber.DebugTree())
-*/
             setupRecurringWork()
         }
     }

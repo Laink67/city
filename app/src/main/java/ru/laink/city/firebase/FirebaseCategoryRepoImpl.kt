@@ -14,19 +14,18 @@ class FirebaseCategoryRepoImpl(
     val db: RequestDatabase,
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 ) {
+    val localCategories = db.getCategoryDao().getAll()
 
-    suspend fun getCategories(): Resource<List<Category>, Exception> {
-        return try {
+    suspend fun getCategories(): Resource<List<Category>, Exception> = withContext(Dispatchers.IO) {
+        try {
             val categoryList = mutableListOf<Category>()
+
             val document =
                 firestore.collection(COLLECTION_CATEGORIES).document(COLLECTION_DOCUMENT).get()
                     .await()
 
             document.data?.forEach { data ->
                 categoryList.add(Category(data.key.toInt(), data.value.toString()))
-                withContext(Dispatchers.IO) {
-                    db.getCategoryDao().insert(Category(data.key.toInt(), data.value.toString()))
-                }
             }
 
             Resource.build { categoryList }
@@ -35,5 +34,7 @@ class FirebaseCategoryRepoImpl(
         }
     }
 
-    fun getLocalCategory() = db.getCategoryDao().getAll()
+    suspend fun insertToDb(data: List<Category>) {
+        db.getCategoryDao().insertAll(data)
+    }
 }

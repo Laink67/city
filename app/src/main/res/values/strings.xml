@@ -7,8 +7,8 @@
     <string name="description">Описание</string>
     <string name="location">Локация</string>
     <string name="map">Карта</string>
-    <string name="select_on_map">Выбирите на карте</string>
-    <string name="select_in_calendar">Выбирите в календаре</string>
+    <string name="select_on_map">Выберите на карте</string>
+    <string name="select_in_calendar">Выберите в календаре</string>
     <string name="submit">Отправить</string>
     <string name="mail">Почта</string>
     <string name="password">Пароль</string>

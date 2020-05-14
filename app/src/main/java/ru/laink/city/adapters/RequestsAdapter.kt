@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.request_item_preview.view.*
 import ru.laink.city.R
-import ru.laink.city.models.Request
+import ru.laink.city.models.RequestRoom
 
 class RequestsAdapter : RecyclerView.Adapter<RequestsAdapter.ItemViewHolder>() {
 
@@ -16,12 +16,12 @@ class RequestsAdapter : RecyclerView.Adapter<RequestsAdapter.ItemViewHolder>() {
 
     // DiffUtil позволяет сравнивать различия между двумя списками, тем самым,
     // обновляя только те значения,которые были разными
-    private val differCallBack = object : DiffUtil.ItemCallback<Request>() {
-        override fun areItemsTheSame(oldItem: Request, newItem: Request): Boolean {
+    private val differCallBack = object : DiffUtil.ItemCallback<RequestRoom>() {
+        override fun areItemsTheSame(oldItem: RequestRoom, newItem: RequestRoom): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Request, newItem: Request): Boolean {
+        override fun areContentsTheSame(oldItem: RequestRoom, newItem: RequestRoom): Boolean {
             return oldItem == newItem
         }
     }
@@ -58,9 +58,9 @@ class RequestsAdapter : RecyclerView.Adapter<RequestsAdapter.ItemViewHolder>() {
         }
     }
 
-    private var onItemClickListener: ((Request) -> Unit)? = null
+    private var onItemClickListener: ((RequestRoom) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (Request) -> Unit) {
+    fun setOnItemClickListener(listener: (RequestRoom) -> Unit) {
         onItemClickListener = listener
     }
 }

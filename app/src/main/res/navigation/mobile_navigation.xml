@@ -36,7 +36,11 @@
         android:id="@+id/add_messaage_dest"
         android:name="ru.laink.city.ui.fragments.AddMessageFragment"
         android:label="Добавить заявку"
-        tools:layout="@layout/add_message_fragment" />
+        tools:layout="@layout/add_message_fragment" >
+        <argument
+            android:name="category"
+            app:argType="ru.laink.city.models.Category" />
+    </fragment>
     <fragment
         android:id="@+id/login_dest"
         android:name="ru.laink.city.ui.fragments.LoginFragment"
