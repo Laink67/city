@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -64,6 +65,7 @@ class AddMessageFragment : Fragment() {
 
         photoImage = view.findViewById(R.id.photo_image)
         val category = args.category
+        val latLng = args.latLng
 
         val requestRepository = FirebaseRequestRepoImpl(RequestDatabase(requireContext()))
         val viewModelProviderFactory = RequestViewModelProviderFactory(requestRepository)
@@ -120,7 +122,7 @@ class AddMessageFragment : Fragment() {
         }
 
         view.findViewById<MaterialButton>(R.id.submit_button)?.setOnClickListener {
-            requestViewModel.upsertRequest(getRequest(category), bitmap)
+            requestViewModel.upsertRequest(getRequest(category, latLng), bitmap)
         }
 
         // Прослушивание ответа добавленных
@@ -151,12 +153,12 @@ class AddMessageFragment : Fragment() {
     }
 
 
-    private fun getRequest(category: Category): Request {
+    private fun getRequest(category: Category, latLng: LatLng): Request {
         return Request(
             title_edit_text.text.toString(),
             date_edit_text.text.toString(),
             description_edit_text.text.toString(),
-            "Location",
+            latLng,
             null,
             category
         )

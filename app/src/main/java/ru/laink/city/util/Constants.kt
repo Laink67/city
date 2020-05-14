@@ -14,5 +14,7 @@ class Constants {
         const val WORK_NAME = "ru.laink.city.work.RefreshDataWorker"
 
         const val IMAGE_EXPANSION = "png"
+
+        const val REQUEST_LOCATION_PERMISSION = 1
     }
 }

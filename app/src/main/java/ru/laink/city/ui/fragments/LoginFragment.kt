@@ -26,11 +26,11 @@ import ru.laink.city.ui.viewmodels.UserViewModel
 import ru.laink.city.ui.UserViewModelFactory
 import ru.laink.city.util.Constants.Companion.GOOGLE_SIGN_IN
 import ru.laink.city.util.Resource
+import timber.log.Timber
 
 class LoginFragment : Fragment(R.layout.login_fragment) {
 
     lateinit var viewModel: UserViewModel
-    private val TAG = "LoginFragment"
 
     override fun onStart() {
         super.onStart()
@@ -44,12 +44,6 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
         } else {
             viewModel.clearSignInAnswer()
         }
-
-    }
-
-    override fun onPause() {
-        super.onPause()
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,7 +65,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                     hideProgressBar()
                     response.message?.let { message ->
                         Snackbar.make(requireView(), "Ошибка: $message", 1000).show()
-                        Log.e(TAG, "An error occured: $message")
+                        Timber.e("An error occured: $message")
                     }
                 }
                 is Resource.Loading -> {
@@ -132,6 +126,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
         return viewModel.getUser()
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK && requestCode == GOOGLE_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
@@ -143,7 +138,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                 if (account != null) userToken = account.idToken
 
             } catch (exception: Exception) {
-                Log.d("LOGIN", exception.toString())
+                Timber.d(exception)
             }
 
             viewModel.onSignInResultByGoogle(LoginResult(requestCode, userToken))

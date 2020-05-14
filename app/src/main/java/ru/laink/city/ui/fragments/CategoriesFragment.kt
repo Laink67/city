@@ -41,7 +41,7 @@ class CategoriesFragment : Fragment(R.layout.categories_fragment) {
                 putParcelable("category", it)
             }
             findNavController().navigate(
-                R.id.action_categories_to_add_messaage_dest,
+                R.id.action_categoriest_to_map_dest,
                 bundle
             )
         }

@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
 
         setupActionBar(navController, appBarConfiguration)
+
+
     }
 
     private fun setupActionBar(

@@ -17,4 +17,7 @@
     <string name="login">Логин</string>
     <string name="signUp">Зарегистрироваться</string>
     <string name="error">Ошибка</string>
+    <string name="addMarkerOnMapQuestion">Добавить выбранное местоположение?</string>
+    <string name="no">Нет</string>
+    <string name="yes">Да</string>
 </resources>
