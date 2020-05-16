@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.button.MaterialButton
@@ -25,30 +26,24 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.add_message_fragment.*
-import kotlinx.android.synthetic.main.login_fragment.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.laink.city.R
 import ru.laink.city.db.RequestDatabase
 import ru.laink.city.firebase.FirebaseRequestRepoImpl
 import ru.laink.city.models.Category
-import ru.laink.city.models.Request
+import ru.laink.city.models.RequestFirebase
 import ru.laink.city.ui.RequestViewModelProviderFactory
 import ru.laink.city.ui.viewmodels.RequestsViewModel
 import ru.laink.city.util.Constants.Companion.CAMERA_PERMISSION_CODE
 import ru.laink.city.util.Constants.Companion.CAMERA_REQUEST_CODE
 import ru.laink.city.util.Constants.Companion.GALLERY_REQUEST_CODE
 import ru.laink.city.util.Resource
-import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AddMessageFragment : Fragment() {
+class AddMessageFragment : BaseFragment() {
 
     lateinit var requestViewModel: RequestsViewModel
-    private lateinit var bitmap: Bitmap
+    private var bitmap: Bitmap? = null
     private lateinit var photoImage: ImageView
     val args: AddMessageFragmentArgs by navArgs()
 
@@ -122,45 +117,51 @@ class AddMessageFragment : Fragment() {
         }
 
         view.findViewById<MaterialButton>(R.id.submit_button)?.setOnClickListener {
-            requestViewModel.upsertRequest(getRequest(category, latLng), bitmap)
+            upsertRequest(category, latLng)
         }
 
         // Прослушивание ответа добавленных
-        requestViewModel.result.observe(viewLifecycleOwner, Observer { resource ->
+        requestViewModel.resultUpsert.observe(viewLifecycleOwner, Observer { resource ->
             when (resource) {
                 is Resource.Loading -> {
-                    showProgressBar()
+                    showProgressBar(add_request_progress)
                 }
                 is Resource.Success -> {
-                    hideProgressBar()
+                    hideProgressBar(add_request_progress)
                     Snackbar.make(requireView(), "Заявка успешно добавлена", 1000).show()
-                    // Переход к следующему фрагменту
+                    // Переход к главному меню
+                    findNavController().popBackStack(R.id.home_dest, true)
                 }
                 is Resource.Error -> {
-                    hideProgressBar()
+                    hideProgressBar(add_request_progress)
                     Snackbar.make(requireView(), "Error: ${resource.message}", 1000).show()
                 }
             }
         })
     }
 
-    private fun hideProgressBar() {
-        add_request_progress.visibility = View.INVISIBLE
+    private fun upsertRequest(category: Category, latLng: LatLng) {
+        if (bitmap == null) {
+            Snackbar.make(requireView(), getString(R.string.add_photo), 2000).show()
+        } else if (title_edit_text.text.toString() == ""
+            || description_edit_text.text.toString() == ""
+            || date_edit_text.text.toString() == ""
+        ) {
+            Snackbar.make(requireView(), getString(R.string.enter_empty_field), 2000).show()
+        } else {
+            requestViewModel.upsertRequest(getRequest(category.id, latLng), bitmap!!)
+        }
     }
 
-    private fun showProgressBar() {
-        add_request_progress.visibility = View.VISIBLE
-    }
-
-
-    private fun getRequest(category: Category, latLng: LatLng): Request {
-        return Request(
+    private fun getRequest(categoryId: Int, latLng: LatLng): RequestFirebase {
+        return RequestFirebase(
             title_edit_text.text.toString(),
             date_edit_text.text.toString(),
             description_edit_text.text.toString(),
-            latLng,
+            latLng.latitude,
+            latLng.longitude,
             null,
-            category
+            categoryId
         )
     }
 
@@ -210,7 +211,6 @@ class AddMessageFragment : Fragment() {
                 }
                 GALLERY_REQUEST_CODE -> {
                     val contentUri = data?.data!!
-//                    photoImage.setImageURI(contentUri)
                     val source =
                         ImageDecoder.createSource(requireContext().contentResolver, contentUri)
                     bitmap = ImageDecoder.decodeBitmap(source)

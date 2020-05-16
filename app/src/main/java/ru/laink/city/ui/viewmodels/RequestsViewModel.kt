@@ -5,28 +5,62 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.laink.city.firebase.FirebaseRequestRepoImpl
-import ru.laink.city.firebase.FirebaseUserRepoImpl
 import ru.laink.city.models.Request
-import ru.laink.city.models.RequestRoom
+import ru.laink.city.models.RequestFirebase
 import ru.laink.city.util.Resource
-import java.io.ByteArrayOutputStream
 import java.lang.Exception
 
 class RequestsViewModel(
-    val requestRepository: FirebaseRequestRepoImpl
+    private val requestRepository: FirebaseRequestRepoImpl
 ) : ViewModel() {
 
-    private val _result: MutableLiveData<Resource<Unit, Exception>> = MutableLiveData()
-    val result: LiveData<Resource<Unit, Exception>> = _result
+    private val _resultUpsert: MutableLiveData<Resource<Unit, Exception>> = MutableLiveData()
+    private val _resultOwnRequests: MutableLiveData<Resource<List<Request>, Exception>> =
+        MutableLiveData()
 
-    fun upsertRequest(request: Request, bitmap: Bitmap) =
+    val resultUpsert: LiveData<Resource<Unit, Exception>> = _resultUpsert
+    val resultOwnRequest: LiveData<Resource<List<Request>, Exception>> = _resultOwnRequests
+    val localOwnRequests = requestRepository.localOwnRequests
+
+    fun upsertRequest(requestFirebase: RequestFirebase, bitmap: Bitmap) =
         viewModelScope.launch {
-            _result.postValue(Resource.Loading())
-            _result.postValue(requestRepository.upsertRequestFirebase(request, bitmap))
+            _resultUpsert.postValue(Resource.Loading())
+            _resultUpsert.postValue(
+                requestRepository.upsertRequestFirebase(
+                    requestFirebase,
+                    bitmap
+                )
+            )
         }
 
+    fun getOwnRequests() = viewModelScope.launch {
+        _resultOwnRequests.postValue(Resource.Loading())
+
+        val requestResource = requestRepository.getUserRequests()
+
+        if (requestResource is Resource.Error)
+            _resultOwnRequests.postValue(requestResource)
+        else
+            _resultOwnRequests.postValue(Resource.Success(emptyList()))
+    }
+
+
+    fun getAndInsert() = viewModelScope.launch {
+        _resultOwnRequests.postValue(Resource.Loading())
+
+        val requestResource = requestRepository.getUserRequests()
+
+        if (requestResource is Resource.Error)
+            _resultOwnRequests.postValue(requestResource)
+        else {
+            _resultOwnRequests.postValue(Resource.Success(emptyList()))
+            insertToDb(requestResource.data!!)
+        }
+    }
+
+    private suspend fun insertToDb(list: List<Request>) {
+        requestRepository.insertToDb(list)
+    }
 }

@@ -1,27 +1,31 @@
 package ru.laink.city.adapters
 
+import android.location.Geocoder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.request_item_preview.view.*
 import ru.laink.city.R
-import ru.laink.city.models.RequestRoom
+import ru.laink.city.models.Request
 
-class RequestsAdapter : RecyclerView.Adapter<RequestsAdapter.ItemViewHolder>() {
+class RequestsAdapter(private val geocoder: Geocoder) :
+    RecyclerView.Adapter<RequestsAdapter.ItemViewHolder>() {
 
     inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     // DiffUtil позволяет сравнивать различия между двумя списками, тем самым,
     // обновляя только те значения,которые были разными
-    private val differCallBack = object : DiffUtil.ItemCallback<RequestRoom>() {
-        override fun areItemsTheSame(oldItem: RequestRoom, newItem: RequestRoom): Boolean {
+    private val differCallBack = object : DiffUtil.ItemCallback<Request>() {
+        override fun areItemsTheSame(oldItem: Request, newItem: Request): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: RequestRoom, newItem: RequestRoom): Boolean {
+        override fun areContentsTheSame(oldItem: Request, newItem: Request): Boolean {
             return oldItem == newItem
         }
     }
@@ -30,6 +34,7 @@ class RequestsAdapter : RecyclerView.Adapter<RequestsAdapter.ItemViewHolder>() {
     val differ = AsyncListDiffer(this, differCallBack)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+
         return ItemViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.request_item_preview,
@@ -47,8 +52,22 @@ class RequestsAdapter : RecyclerView.Adapter<RequestsAdapter.ItemViewHolder>() {
         val request = differ.currentList[position]
 
         holder.itemView.apply {
+
+            if (request.uri != null) {
+                Glide.with(this)
+                    .load(request.uri.toUri())
+                    .into(request_image)
+            } else {
+                request_image.setImageResource(R.drawable.ic_camera)
+            }
+
             title_text.text = request.title
-            location_text.text = request.location
+            location_text.text =
+                geocoder.getFromLocation(
+                    request.latitude,
+                    request.longitude,
+                    1
+                )[0].getAddressLine(0)
             date_text.text = request.date
             description_text.text = request.description
 
@@ -58,9 +77,9 @@ class RequestsAdapter : RecyclerView.Adapter<RequestsAdapter.ItemViewHolder>() {
         }
     }
 
-    private var onItemClickListener: ((RequestRoom) -> Unit)? = null
+    private var onItemClickListener: ((Request) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (RequestRoom) -> Unit) {
+    fun setOnItemClickListener(listener: (Request) -> Unit) {
         onItemClickListener = listener
     }
 }

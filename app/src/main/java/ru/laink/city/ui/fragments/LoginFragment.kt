@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -28,9 +30,17 @@ import ru.laink.city.util.Constants.Companion.GOOGLE_SIGN_IN
 import ru.laink.city.util.Resource
 import timber.log.Timber
 
-class LoginFragment : Fragment(R.layout.login_fragment) {
+class LoginFragment : BaseFragment() {
 
     lateinit var viewModel: UserViewModel
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.login_fragment, container, false)
+    }
 
     override fun onStart() {
         super.onStart()
@@ -57,19 +67,19 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
         viewModel.signInAnswer.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
-                    hideProgressBar()
+                    hideProgressBar(login_progress)
                     Snackbar.make(requireView(), "Привет, ${response.data!!.name}", 1000).show()
                     findNavController().navigate(R.id.action_login_to_home_dest)
                 }
                 is Resource.Error -> {
-                    hideProgressBar()
+                    hideProgressBar(login_progress)
                     response.message?.let { message ->
                         Snackbar.make(requireView(), "Ошибка: $message", 1000).show()
                         Timber.e("An error occured: $message")
                     }
                 }
                 is Resource.Loading -> {
-                    showProgressBar()
+                    showProgressBar(login_progress)
                 }
             }
         })
@@ -94,15 +104,6 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
         )
     }
 
-    private fun hideProgressBar() {
-        login_progress.visibility = View.INVISIBLE
-    }
-
-    private fun showProgressBar() {
-        login_progress.visibility = View.VISIBLE
-    }
-
-
     // Для отображения входа Google
     private fun startSignInGoogle() {
         // Создаём объект параметров входа в Google
@@ -125,7 +126,6 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     private fun getCurrentUser(): Resource<User?, Exception> {
         return viewModel.getUser()
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK && requestCode == GOOGLE_SIGN_IN) {

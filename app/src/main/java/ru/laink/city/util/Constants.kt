@@ -11,10 +11,15 @@ class Constants {
         const val COLLECTION_DOCUMENT = "titles"
         const val COLLECTION_REQUEST = "requests"
 
-        const val WORK_NAME = "ru.laink.city.work.RefreshDataWorker"
+        const val WORK_CATEGORY = "ru.laink.city.work.RefreshCategoryWorker"
+        const val WORK_REQUEST = "ru.laink.city.work.RefreshRequestWorker"
 
         const val IMAGE_EXPANSION = "png"
 
         const val REQUEST_LOCATION_PERMISSION = 1
+
+        const val SMOLENSK_LONGITUDE = 32.050169
+        const val SMOLENSK_LATITUDE = 54.790495
+        const val ZOOM_LEVEL = 10f
     }
 }

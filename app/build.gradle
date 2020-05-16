@@ -92,4 +92,11 @@ dependencies {
 //    implementation 'androidx.paging:paging-runtime-ktx:2.1.0'
 
     implementation "com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava"
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
+
+    //RefreshLayout
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 }

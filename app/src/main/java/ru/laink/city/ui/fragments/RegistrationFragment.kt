@@ -1,8 +1,9 @@
 package ru.laink.city.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -12,13 +13,23 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.registration_fragment.*
 import ru.laink.city.R
 import ru.laink.city.firebase.FirebaseUserRepoImpl
-import ru.laink.city.ui.viewmodels.UserViewModel
 import ru.laink.city.ui.UserViewModelFactory
+import ru.laink.city.ui.viewmodels.UserViewModel
 import ru.laink.city.util.Resource
+import timber.log.Timber
 
 class RegistrationFragment : Fragment(R.layout.registration_fragment) {
     lateinit var viewModel: UserViewModel
-    private val TAG = "RegistrationFragment"
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(
+            R.layout.registration_fragment, container, false
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,7 +49,7 @@ class RegistrationFragment : Fragment(R.layout.registration_fragment) {
                     hideProgressBar()
                     response.message?.let { message ->
                         Snackbar.make(requireView(), "Ошибка: $message", 1000).show()
-                        Log.e(TAG, "An error occured: $message")
+                        Timber.e("An error occured: $message")
                     }
                 }
                 is Resource.Loading -> {

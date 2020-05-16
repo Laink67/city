@@ -20,4 +20,7 @@
     <string name="addMarkerOnMapQuestion">Добавить выбранное местоположение?</string>
     <string name="no">Нет</string>
     <string name="yes">Да</string>
+    <string name="add_photo">Добавьте фото</string>
+    <string name="enter_empty_field">Заполните пустые поля</string>
+    <string name="get_address_error">Местоположение не определено. Попробуйте еще раз</string>
 </resources>

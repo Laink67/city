@@ -32,6 +32,7 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".ui.MainActivity">
+            <nav-graph android:value="@navigation/mobile_navigation" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

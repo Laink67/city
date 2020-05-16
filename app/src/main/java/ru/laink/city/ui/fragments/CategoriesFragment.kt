@@ -1,7 +1,9 @@
 package ru.laink.city.ui.fragments
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,11 +20,18 @@ import ru.laink.city.ui.viewmodels.CategoryViewModel
 import ru.laink.city.util.Resource
 import timber.log.Timber
 
-class CategoriesFragment : Fragment(R.layout.categories_fragment) {
+class CategoriesFragment : BaseFragment() {
 
     private lateinit var categoryViewModel: CategoryViewModel
     private lateinit var categoryAdapter: CategoryAdapter
-    private val TAG = "CategoriesFragment"
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.categories_fragment, container,false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,13 +65,13 @@ class CategoriesFragment : Fragment(R.layout.categories_fragment) {
             Observer { response ->
                 when (response) {
                     is Resource.Success -> {
-                        hideProgressBar()
+                        hideProgressBar(category_progress_bar)
                     }
                     is Resource.Loading -> {
-                        showProgressBar()
+                        showProgressBar(category_progress_bar)
                     }
                     is Resource.Error -> {
-                        hideProgressBar()
+                        hideProgressBar(category_progress_bar)
                         Snackbar.make(requireView(), "Ошибка ${response.message}", 1000).show()
                         Timber.d("An error occured: ${response.message}")
                     }
@@ -70,15 +79,6 @@ class CategoriesFragment : Fragment(R.layout.categories_fragment) {
             })
 
     }
-
-    private fun hideProgressBar() {
-        category_progress_bar.visibility = View.INVISIBLE
-    }
-
-    private fun showProgressBar() {
-        category_progress_bar.visibility = View.VISIBLE
-    }
-
 
     private fun setUpRecyclerView() {
         categoryAdapter = CategoryAdapter()

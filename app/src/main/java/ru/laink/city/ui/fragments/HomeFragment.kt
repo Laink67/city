@@ -11,8 +11,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import ru.laink.city.R
 import ru.laink.city.firebase.FirebaseUserRepoImpl
-import ru.laink.city.ui.viewmodels.UserViewModel
 import ru.laink.city.ui.UserViewModelFactory
+import ru.laink.city.ui.viewmodels.UserViewModel
 import ru.laink.city.util.Resource
 
 class HomeFragment : Fragment(R.layout.home_fragment) {
@@ -38,6 +38,9 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         view.findViewById<ImageView>(R.id.sign_out_image)?.setOnClickListener {
             signOut()
         }
+        view.findViewById<ImageView>(R.id.messages_image)?.setOnClickListener(
+            Navigation.createNavigateOnClickListener(R.id.own_requests_dest)
+        )
     }
 
     private fun signOut() {

@@ -1,6 +1,8 @@
 package ru.laink.city.ui.fragments
 
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -26,10 +28,13 @@ import kotlinx.android.synthetic.main.map_fragment.*
 import ru.laink.city.R
 import ru.laink.city.map.Map
 import ru.laink.city.util.Constants.Companion.REQUEST_LOCATION_PERMISSION
+import ru.laink.city.util.Constants.Companion.SMOLENSK_LATITUDE
+import ru.laink.city.util.Constants.Companion.SMOLENSK_LONGITUDE
+import ru.laink.city.util.Constants.Companion.ZOOM_LEVEL
 import timber.log.Timber
 import java.util.*
 
-class AddMapFragment : Fragment(), OnMapReadyCallback {
+class AddMapFragment : BaseFragment(), OnMapReadyCallback {
 
     private lateinit var geocoder: Geocoder
     private lateinit var dialog: MaterialAlertDialogBuilder
@@ -46,7 +51,7 @@ class AddMapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onStart() {
         super.onStart()
-        hideProgressBar()
+        hideProgressBar(map_progress)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,12 +72,8 @@ class AddMapFragment : Fragment(), OnMapReadyCallback {
         googleMap = p0
 //        googleMap.clear()
 
-        val latitude = 54.790495
-        val longitude = 32.050169
-        val homeLatLng = LatLng(latitude, longitude)
-        val zoomLevel = 10f
-
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, zoomLevel))
+        val homeLatLng = LatLng(SMOLENSK_LATITUDE, SMOLENSK_LONGITUDE)
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, ZOOM_LEVEL))
 
         // Установка долгого нажатия для добавления нового маркера
         setMapLongClick()
@@ -93,22 +94,18 @@ class AddMapFragment : Fragment(), OnMapReadyCallback {
         if (isPermissionGranted()) {
             googleMap.isMyLocationEnabled = true
         } else {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
+            requestPermissions(
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 REQUEST_LOCATION_PERMISSION
             )
         }
     }
 
-    private fun hideProgressBar() {
-        map_progress.visibility = View.INVISIBLE
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_LOCATION_PERMISSION) {
+            googleMap.isMyLocationEnabled = true
+        }
     }
-
-    private fun showProgressBar() {
-        map_progress.visibility = View.VISIBLE
-    }
-
 
     private fun setMapLongClick() {
         googleMap.setOnMapLongClickListener { latLng ->
@@ -122,7 +119,7 @@ class AddMapFragment : Fragment(), OnMapReadyCallback {
 //                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
 //                    )
 
-                    showProgressBar()
+                    showProgressBar(map_progress)
 
                     val bundle = Bundle().apply {
                         putParcelable("category", args.category)
@@ -138,8 +135,12 @@ class AddMapFragment : Fragment(), OnMapReadyCallback {
 
 
     private fun getAddress(latLng: LatLng): String {
-        val addressList = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-        return addressList[0].getAddressLine(0)
+        return try {
+            val addressList = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+            addressList[0].getAddressLine(0)
+        } catch (e: java.lang.Exception) {
+            getString(R.string.get_address_error)
+        }
     }
 
     private fun setMapStyle() {

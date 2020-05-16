@@ -5,8 +5,10 @@ import androidx.work.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import ru.laink.city.util.Constants.Companion.WORK_NAME
-import ru.laink.city.work.RefreshDataWorker
+import ru.laink.city.util.Constants.Companion.WORK_CATEGORY
+import ru.laink.city.util.Constants.Companion.WORK_REQUEST
+import ru.laink.city.work.RefreshCategoryWorker
+import ru.laink.city.work.RefreshRequestsWorker
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -28,19 +30,30 @@ class CityApplication : Application() {
             .setRequiredNetworkType(NetworkType.UNMETERED)
             .build()
 */
-        // Периодический запрос один раз в час
-        val repeatingRequest = PeriodicWorkRequestBuilder<RefreshDataWorker>(1, TimeUnit.DAYS)
+        // Периодический запрос один раз в сутики
+        val repeatingCategory = PeriodicWorkRequestBuilder<RefreshCategoryWorker>(1, TimeUnit.DAYS)
 //            .setConstraints(constraints) // Установка ограничений
             .build()
+
+        // Периодический запрос три раза в сутки
+        val repeatingRequest = PeriodicWorkRequestBuilder<RefreshRequestsWorker>(3, TimeUnit.DAYS)
+//            .setConstraints(constraints) // Установка ограничений
+            .build()
+
+        WorkManager.getInstance().enqueueUniquePeriodicWork(
+            WORK_REQUEST,
+            ExistingPeriodicWorkPolicy.KEEP,
+            repeatingRequest
+        )
 
         // Этот метод позволяет добавить уникальное имя PeriodicWorkRequestв очередь,
         // где одновременно PeriodicWorkRequest может быть активным только одно из определенных имен
         WorkManager.getInstance().enqueueUniquePeriodicWork(
-            WORK_NAME,
+            WORK_CATEGORY,
             ExistingPeriodicWorkPolicy.KEEP,// Если существует ожидающая (незавершенная) работа с тем же именем,
-            // ExistingPeriodicWorkPolicy.KEEP параметр заставляет WorkManagerсохранить предыдущую периодическую работу
+            // ExistingPeriodicWorkPolicy.KEEP параметр заставляет WorkManager сохранить предыдущую периодическую работу
             // и отклонить новый запрос на работу.
-            repeatingRequest
+            repeatingCategory
         )
     }
 

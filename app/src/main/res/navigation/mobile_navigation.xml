@@ -25,6 +25,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_home_dest_to_ownRequestsFragment"
+            app:destination="@id/own_requests_dest"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -36,7 +43,7 @@
         android:id="@+id/add_messaage_dest"
         android:name="ru.laink.city.ui.fragments.AddMessageFragment"
         android:label="Добавить заявку"
-        tools:layout="@layout/add_message_fragment" >
+        tools:layout="@layout/add_message_fragment">
         <argument
             android:name="category"
             app:argType="ru.laink.city.models.Category" />
@@ -98,6 +105,14 @@
         <argument
             android:name="category"
             app:argType="ru.laink.city.models.Category" />
+    </fragment>
+    <fragment
+        android:id="@+id/own_requests_dest"
+        android:name="ru.laink.city.ui.fragments.OwnRequestsFragment"
+        android:label="OwnRequestsFragment">
+        <deepLink
+            android:id="@+id/deepLink2"
+            app:uri="ru.laink.city.ui.fragments/OwnRequestsFragment" />
     </fragment>
 
 </navigation>

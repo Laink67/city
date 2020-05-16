@@ -4,18 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import ru.laink.city.db.RequestDatabase
 import ru.laink.city.firebase.FirebaseCategoryRepoImpl
 import ru.laink.city.models.Category
-import ru.laink.city.repositories.CategoryRepository
 import ru.laink.city.util.Resource
-import java.io.IOException
-import java.lang.Exception
-import kotlin.coroutines.CoroutineContext
 
 class CategoryViewModel(
     private val firebaseCategoryRepoImpl: FirebaseCategoryRepoImpl
