@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.categories_fragment.*
@@ -24,13 +25,14 @@ class CategoriesFragment : BaseFragment() {
 
     private lateinit var categoryViewModel: CategoryViewModel
     private lateinit var categoryAdapter: CategoryAdapter
+    private val args: CategoriesFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.categories_fragment, container,false)
+        return inflater.inflate(R.layout.categories_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,10 +49,11 @@ class CategoriesFragment : BaseFragment() {
         // По клику на категорию передать её на фрагмент добавления заявки
         categoryAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
+                putParcelable("latLng", args.latLng)
                 putParcelable("category", it)
             }
             findNavController().navigate(
-                R.id.action_categoriest_to_map_dest,
+                R.id.action_categoriesFragment_to_add_messaage_dest,
                 bundle
             )
         }

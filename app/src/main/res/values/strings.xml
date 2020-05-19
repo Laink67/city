@@ -23,4 +23,5 @@
     <string name="add_photo">Добавьте фото</string>
     <string name="enter_empty_field">Заполните пустые поля</string>
     <string name="get_address_error">Местоположение не определено. Попробуйте еще раз</string>
+    <string name="statusIs">Статус - %1$s</string>
 </resources>

@@ -17,11 +17,11 @@ class RequestsViewModel(
 ) : ViewModel() {
 
     private val _resultUpsert: MutableLiveData<Resource<Unit, Exception>> = MutableLiveData()
-    private val _resultOwnRequests: MutableLiveData<Resource<List<Request>, Exception>> =
+    private val _resultRequests: MutableLiveData<Resource<List<Request>, Exception>> =
         MutableLiveData()
 
     val resultUpsert: LiveData<Resource<Unit, Exception>> = _resultUpsert
-    val resultOwnRequest: LiveData<Resource<List<Request>, Exception>> = _resultOwnRequests
+    val resultRequest: LiveData<Resource<List<Request>, Exception>> = _resultRequests
     val localOwnRequests = requestRepository.localOwnRequests
 
     fun upsertRequest(requestFirebase: RequestFirebase, bitmap: Bitmap) =
@@ -35,27 +35,32 @@ class RequestsViewModel(
             )
         }
 
-    fun getOwnRequests() = viewModelScope.launch {
-        _resultOwnRequests.postValue(Resource.Loading())
-
-        val requestResource = requestRepository.getUserRequests()
-
-        if (requestResource is Resource.Error)
-            _resultOwnRequests.postValue(requestResource)
-        else
-            _resultOwnRequests.postValue(Resource.Success(emptyList()))
+    fun getAllRequests() = viewModelScope.launch {
+        _resultRequests.postValue(Resource.Loading())
+        _resultRequests.postValue(requestRepository.getAllRequests())
     }
+
+//    fun getOwnRequests() = viewModelScope.launch {
+//        _resultRequests.postValue(Resource.Loading())
+//
+//        val requestResource = requestRepository.getUserRequests()
+//
+//        if (requestResource is Resource.Error)
+//            _resultRequests.postValue(requestResource)
+//        else
+//            _resultRequests.postValue(Resource.Success(emptyList()))
+//    }
 
 
     fun getAndInsert() = viewModelScope.launch {
-        _resultOwnRequests.postValue(Resource.Loading())
+        _resultRequests.postValue(Resource.Loading())
 
         val requestResource = requestRepository.getUserRequests()
 
         if (requestResource is Resource.Error)
-            _resultOwnRequests.postValue(requestResource)
+            _resultRequests.postValue(requestResource)
         else {
-            _resultOwnRequests.postValue(Resource.Success(emptyList()))
+            _resultRequests.postValue(Resource.Success(emptyList()))
             insertToDb(requestResource.data!!)
         }
     }

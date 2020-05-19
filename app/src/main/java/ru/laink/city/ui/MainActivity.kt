@@ -2,6 +2,7 @@ package ru.laink.city.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -9,6 +10,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import ru.laink.city.R
+import ru.laink.city.db.RequestDatabase
+import ru.laink.city.firebase.FirebaseRequestRepoImpl
+import ru.laink.city.ui.viewmodels.RequestsViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,8 +30,6 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
 
         setupActionBar(navController, appBarConfiguration)
-
-
     }
 
     private fun setupActionBar(

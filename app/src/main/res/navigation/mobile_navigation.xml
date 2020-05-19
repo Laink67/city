@@ -19,17 +19,17 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_home_to_categories_dest"
-            app:destination="@id/categoriesFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
             android:id="@+id/action_home_dest_to_ownRequestsFragment"
             app:destination="@id/own_requests_dest"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_home_dest_to_addMap"
+            app:destination="@id/addMapFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
@@ -83,28 +83,27 @@
         android:label="Выберите категорию"
         tools:layout="@layout/categories_fragment">
         <action
-            android:id="@+id/action_categoriest_to_map_dest"
-            app:destination="@id/addMapFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            android:id="@+id/action_categoriesFragment_to_add_messaage_dest"
+            app:destination="@id/add_messaage_dest" />
+        <argument
+            android:name="latLng"
+            app:argType="com.google.android.gms.maps.model.LatLng" />
     </fragment>
     <fragment
         android:id="@+id/addMapFragment"
         android:name="ru.laink.city.ui.fragments.AddMapFragment"
         android:label="Выберите расположение"
         tools:layout="@layout/map_fragment">
+        <argument
+            android:name="category"
+            app:argType="ru.laink.city.models.Category" />
         <action
-            android:id="@+id/action_map_to_add_messaage_dest"
-            app:destination="@id/add_messaage_dest"
+            android:id="@+id/action_addMap_to_categories"
+            app:destination="@id/categoriesFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
-        <argument
-            android:name="category"
-            app:argType="ru.laink.city.models.Category" />
     </fragment>
     <fragment
         android:id="@+id/own_requests_dest"

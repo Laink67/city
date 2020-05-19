@@ -21,5 +21,13 @@ class Constants {
         const val SMOLENSK_LONGITUDE = 32.050169
         const val SMOLENSK_LATITUDE = 54.790495
         const val ZOOM_LEVEL = 10f
+
+        const val TYPE_DONE = 1
+        const val TYPE_REJECTED = -1
+        const val TYPE_IN_DEVELOPING = 0
+
+        const val MARKER_DONE = "РЕШЕНО"
+        const val MARKER_REJECTED = "ОТКЛОНЕНО"
+        const val MARKER_IN_DEVELOPING = "В РАЗРАБОТКЕ"
     }
 }

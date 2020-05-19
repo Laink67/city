@@ -1,10 +1,8 @@
 package ru.laink.city.firebase
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
@@ -13,8 +11,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import ru.laink.city.db.RequestDatabase
-import ru.laink.city.models.*
-import ru.laink.city.util.Constants
+import ru.laink.city.models.Request
+import ru.laink.city.models.RequestFirebase
 import ru.laink.city.util.Constants.Companion.COLLECTION_REQUEST
 import ru.laink.city.util.Constants.Companion.IMAGE_EXPANSION
 import ru.laink.city.util.Resource
@@ -32,6 +30,16 @@ class FirebaseRequestRepoImpl(
     private val auth = FirebaseAuth.getInstance()
 
     val localOwnRequests = db.getRequestDao().getOwnRequests(auth.currentUser!!.uid)
+
+    suspend fun getAllRequests(): Resource<List<Request>, Exception> = withContext(Dispatchers.IO) {
+        try {
+            val querySnapshot = firestoreCollection.get().await()
+
+            Resource.build { resultToRequestList(querySnapshot) }
+        } catch (exception: Exception) {
+            Resource.build { throw exception }
+        }
+    }
 
     suspend fun upsertRequestFirebase(
         requestFirebase: RequestFirebase,

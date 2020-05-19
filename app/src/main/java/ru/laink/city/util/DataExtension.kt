@@ -21,5 +21,6 @@ internal fun firebaseRequestToRequest(
         requestFirebase.longitude ?: SMOLENSK_LONGITUDE,
         requestFirebase.authorId ?: "",
         requestFirebase.categoryId ?: 0,
-        uri?.toString()
+        uri?.toString(),
+        requestFirebase.type!!
     )

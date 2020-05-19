@@ -32,7 +32,7 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         )
 
         view.findViewById<FloatingActionButton>(R.id.add_fab)?.setOnClickListener(
-            Navigation.createNavigateOnClickListener(R.id.action_home_to_categories_dest, null)
+            Navigation.createNavigateOnClickListener(R.id.action_home_dest_to_addMap, null)
         )
 
         view.findViewById<ImageView>(R.id.sign_out_image)?.setOnClickListener {

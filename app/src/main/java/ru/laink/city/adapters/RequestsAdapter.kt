@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.own_requests_fragment.view.*
 import kotlinx.android.synthetic.main.request_item_preview.view.*
 import ru.laink.city.R
 import ru.laink.city.models.Request

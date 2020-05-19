@@ -45,7 +45,7 @@ class AddMessageFragment : BaseFragment() {
     lateinit var requestViewModel: RequestsViewModel
     private var bitmap: Bitmap? = null
     private lateinit var photoImage: ImageView
-    val args: AddMessageFragmentArgs by navArgs()
+    private val args: AddMessageFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
