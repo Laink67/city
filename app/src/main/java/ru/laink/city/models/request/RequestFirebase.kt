@@ -1,8 +1,8 @@
-package ru.laink.city.models
+package ru.laink.city.models.request
 
 import ru.laink.city.util.Constants.Companion.SMOLENSK_LATITUDE
 import ru.laink.city.util.Constants.Companion.SMOLENSK_LONGITUDE
-import ru.laink.city.util.Constants.Companion.TYPE_IN_DEVELOPING
+import ru.laink.city.util.Constants.Companion.STATUS_IN_DEVELOPING
 
 data class RequestFirebase(
     val title: String? = "",
@@ -12,7 +12,7 @@ data class RequestFirebase(
     val longitude: Double? = SMOLENSK_LONGITUDE,
     val authorId: String?,
     val categoryId: Int? = 0,
-    val type: Int? = TYPE_IN_DEVELOPING   // -1 - отклонено, 0 - в разработке, 1 - сделано
+    val type: Int? = STATUS_IN_DEVELOPING   // -1 - отклонено, 0 - в разработке, 1 - сделано
 ) {
     constructor() : this("", "", "", SMOLENSK_LATITUDE, SMOLENSK_LONGITUDE, "", 0)
 }

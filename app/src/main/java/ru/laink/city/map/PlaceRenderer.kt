@@ -8,7 +8,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
 import ru.laink.city.R
-import ru.laink.city.models.Request
+import ru.laink.city.models.request.Request
 import ru.laink.city.util.Constants
 
 class PlaceRenderer(
@@ -22,13 +22,13 @@ class PlaceRenderer(
     override fun onBeforeClusterItemRendered(item: Request?, markerOptions: MarkerOptions) {
         val color =
             when (item?.type) {
-                Constants.TYPE_IN_DEVELOPING -> {
-                    BitmapDescriptorFactory.HUE_BLUE
+                Constants.STATUS_IN_DEVELOPING -> {
+                    BitmapDescriptorFactory.HUE_YELLOW
                 }
-                Constants.TYPE_DONE -> {
+                Constants.STATUS_DONE -> {
                     BitmapDescriptorFactory.HUE_GREEN
                 }
-                Constants.TYPE_REJECTED -> {
+                Constants.STATUS_REJECTED -> {
                     BitmapDescriptorFactory.HUE_RED
                 }
                 else -> {

@@ -11,10 +11,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import ru.laink.city.db.RequestDatabase
-import ru.laink.city.models.Request
-import ru.laink.city.models.RequestFirebase
+import ru.laink.city.models.request.Request
+import ru.laink.city.models.request.RequestFirebase
 import ru.laink.city.util.Constants.Companion.COLLECTION_REQUEST
 import ru.laink.city.util.Constants.Companion.IMAGE_EXPANSION
+import ru.laink.city.util.Constants.Companion.STATUS_ALL
 import ru.laink.city.util.Resource
 import ru.laink.city.util.firebaseRequestToRequest
 import java.io.ByteArrayOutputStream
@@ -22,7 +23,7 @@ import java.io.IOException
 import java.util.*
 
 class FirebaseRequestRepoImpl(
-    val db: RequestDatabase,
+    private val db: RequestDatabase,
     private val firestoreCollection: CollectionReference = FirebaseFirestore.getInstance()
         .collection(COLLECTION_REQUEST),
     private val storage: FirebaseStorage = FirebaseStorage.getInstance()
@@ -35,7 +36,11 @@ class FirebaseRequestRepoImpl(
         try {
             val querySnapshot = firestoreCollection.get().await()
 
-            Resource.build { resultToRequestList(querySnapshot) }
+            val requests = resultToRequestList(querySnapshot)
+
+            insertToDb(requests)
+
+            Resource.build { requests }
         } catch (exception: Exception) {
             Resource.build { throw exception }
         }
@@ -134,4 +139,11 @@ class FirebaseRequestRepoImpl(
     suspend fun insertToDb(requests: List<Request>) {
         db.getRequestDao().insertAll(requests)
     }
+
+    suspend fun getByStatus(status: Int) =
+        if (status != STATUS_ALL) {
+            db.getRequestDao().getByStatus(status)
+        } else {
+            db.getRequestDao().getAllRequests()
+        }
 }

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.category_item.view.*
+import kotlinx.android.synthetic.main.voting_list_item.view.*
 import ru.laink.city.R
 import ru.laink.city.models.Category
 
@@ -35,7 +35,7 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>
     ): CategoryAdapter.CategoryViewHolder {
         return CategoryViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.category_item,
+                R.layout.voting_list_item,
                 parent,
                 false
             )
@@ -50,7 +50,7 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>
         val category = differ.currentList[position]
 
         holder.itemView.apply {
-            category_title_text.text = category?.title
+            recycler_title_text.text = category?.title
 
             setOnClickListener {
                 onItemClickListener?.let { it(category!!) }

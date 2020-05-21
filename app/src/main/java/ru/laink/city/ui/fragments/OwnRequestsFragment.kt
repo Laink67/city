@@ -6,18 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.own_requests_fragment.*
 import ru.laink.city.R
 import ru.laink.city.adapters.RequestsAdapter
 import ru.laink.city.db.RequestDatabase
 import ru.laink.city.firebase.FirebaseRequestRepoImpl
-import ru.laink.city.ui.MainActivity
-import ru.laink.city.ui.RequestViewModelProviderFactory
+import ru.laink.city.ui.factory.RequestViewModelProviderFactory
 import ru.laink.city.ui.viewmodels.RequestsViewModel
-import ru.laink.city.util.Resource
 
 class OwnRequestsFragment : BaseFragment() {
 
@@ -42,18 +39,15 @@ class OwnRequestsFragment : BaseFragment() {
 
         val db = RequestDatabase(requireContext())
         val firebaseRequestRepoImpl = FirebaseRequestRepoImpl(db)
-        val viewModelProviderFactory = RequestViewModelProviderFactory(firebaseRequestRepoImpl)
+        val viewModelProviderFactory =
+            RequestViewModelProviderFactory(
+                firebaseRequestRepoImpl
+            )
         requestsViewModel =
-            ViewModelProvider(this, viewModelProviderFactory).get(RequestsViewModel::class.java)
+            ViewModelProviders.of(this, viewModelProviderFactory).get(RequestsViewModel::class.java)
 
 
         val geocoder = Geocoder(requireContext())
-//        val db = RequestDatabase(requireContext())
-//        val firebaseRequestRepoImpl = FirebaseRequestRepoImpl(db)
-//        val viewModelProviderFactory = RequestViewModelProviderFactory(firebaseRequestRepoImpl)
-//        requestsViewModel =
-//            ViewModelProvider(this, viewModelProviderFactory).get(RequestsViewModel::class.java)
-
         setColorLoading()
 
         // При свайпе вниз загрузка и получение заявок
@@ -69,28 +63,7 @@ class OwnRequestsFragment : BaseFragment() {
             swipe_own_request_layout.isRefreshing = false
         })
 
-//        observeLoadingAndErrors()
     }
-
-/*
-    private fun observeLoadingAndErrors() {
-        requestsViewModel.resultRequest.observe(viewLifecycleOwner, Observer { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    swipe_own_request_layout.isRefreshing = true
-                }
-                is Resource.Success -> {
-                    swipe_own_request_layout.isRefreshing = false
-//                    requestAdapter.differ.submitList(response.data)
-                }
-                is Resource.Error -> {
-                    swipe_own_request_layout.isRefreshing = false
-                    Snackbar.make(requireView(), "Error: ${response.message}", 2000).show()
-                }
-            }
-        })
-    }
-*/
 
     private fun setUpRecyclerView(geocoder: Geocoder) {
         requestAdapter = RequestsAdapter(geocoder)

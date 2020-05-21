@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swipe_categories"
+    android:id="@+id/swipe_voting"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/category_recyclerview"
+        android:id="@+id/voting_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/voting_list_item"/>
+        tools:listitem="@layout/voting_list_item" />
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-

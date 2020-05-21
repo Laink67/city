@@ -24,4 +24,11 @@
     <string name="enter_empty_field">Заполните пустые поля</string>
     <string name="get_address_error">Местоположение не определено. Попробуйте еще раз</string>
     <string name="statusIs">Статус - %1$s</string>
+    <string name="range_answers">РАСПРЕДЕЛЕНИЕ ОТВЕТОВ:</string>
+    <string name="count_of_answers">Всего ответов: %1$d</string>
+    <string name="answers_percent">Ответов: %1$d - %2$d</string>
+    <string name="to_vote">ПРОГОЛОСОВАТЬ</string>
+    <string name="name_of_idea">Название идеи</string>
+    <string name="wait_ideas">Ждём ваши идеи</string>
+    <string name="success">Успешно</string>
 </resources>

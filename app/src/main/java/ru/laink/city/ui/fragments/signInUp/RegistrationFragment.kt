@@ -1,4 +1,4 @@
-package ru.laink.city.ui.fragments
+package ru.laink.city.ui.fragments.signInUp
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.registration_fragment.*
 import ru.laink.city.R
 import ru.laink.city.firebase.FirebaseUserRepoImpl
-import ru.laink.city.ui.UserViewModelFactory
+import ru.laink.city.ui.factory.UserViewModelFactory
 import ru.laink.city.ui.viewmodels.UserViewModel
 import ru.laink.city.util.Resource
 import timber.log.Timber
@@ -35,8 +36,10 @@ class RegistrationFragment : Fragment(R.layout.registration_fragment) {
         super.onViewCreated(view, savedInstanceState)
 
         val fireBaseUserRepoImpl = FirebaseUserRepoImpl()
-        val viewModelProviderFactory = UserViewModelFactory(fireBaseUserRepoImpl)
-        viewModel = ViewModelProvider(this, viewModelProviderFactory).get(UserViewModel::class.java)
+        val viewModelProviderFactory =
+            UserViewModelFactory(fireBaseUserRepoImpl)
+        viewModel =
+            ViewModelProviders.of(this, viewModelProviderFactory).get(UserViewModel::class.java)
 
         viewModel.signUpAnswer.observe(viewLifecycleOwner, Observer { response ->
             when (response) {

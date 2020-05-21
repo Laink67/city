@@ -1,4 +1,4 @@
-package ru.laink.city.ui
+package ru.laink.city.ui.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

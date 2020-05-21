@@ -5,16 +5,18 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import ru.laink.city.models.Category
-import ru.laink.city.models.Request
+import ru.laink.city.models.idea.Idea
+import ru.laink.city.models.request.Request
 
 @Database(
-    entities = [Request::class, Category::class],
+    entities = [Request::class, Category::class, Idea::class],
     version = 1
 )
 abstract class RequestDatabase : RoomDatabase() {
 
     abstract fun getRequestDao(): RequestDao
     abstract fun getCategoryDao(): CategoryDao
+    abstract fun getIdeaDao():IdeaDao
 
     // Singletone
     companion object {

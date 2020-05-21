@@ -10,6 +10,8 @@ class Constants {
         const val COLLECTION_CATEGORIES = "categories"
         const val COLLECTION_DOCUMENT = "titles"
         const val COLLECTION_REQUEST = "requests"
+        const val COLLECTION_VOTING = "voting"
+        const val COLLECTION_IDEAS = "ideas"
 
         const val WORK_CATEGORY = "ru.laink.city.work.RefreshCategoryWorker"
         const val WORK_REQUEST = "ru.laink.city.work.RefreshRequestWorker"
@@ -22,12 +24,15 @@ class Constants {
         const val SMOLENSK_LATITUDE = 54.790495
         const val ZOOM_LEVEL = 10f
 
-        const val TYPE_DONE = 1
-        const val TYPE_REJECTED = -1
-        const val TYPE_IN_DEVELOPING = 0
+        const val STATUS_DONE = 1
+        const val STATUS_REJECTED = -1
+        const val STATUS_IN_DEVELOPING = 0
+        const val STATUS_ALL = 2
 
         const val MARKER_DONE = "РЕШЕНО"
         const val MARKER_REJECTED = "ОТКЛОНЕНО"
         const val MARKER_IN_DEVELOPING = "В РАЗРАБОТКЕ"
+
+        const val TWO_SIGNS_FORMAT = "%.2f"
     }
 }

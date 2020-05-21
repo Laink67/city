@@ -1,4 +1,4 @@
-package ru.laink.city.models
+package ru.laink.city.models.request
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -7,9 +7,9 @@ import com.google.maps.android.clustering.ClusterItem
 import ru.laink.city.util.Constants.Companion.MARKER_DONE
 import ru.laink.city.util.Constants.Companion.MARKER_IN_DEVELOPING
 import ru.laink.city.util.Constants.Companion.MARKER_REJECTED
-import ru.laink.city.util.Constants.Companion.TYPE_DONE
-import ru.laink.city.util.Constants.Companion.TYPE_IN_DEVELOPING
-import ru.laink.city.util.Constants.Companion.TYPE_REJECTED
+import ru.laink.city.util.Constants.Companion.STATUS_DONE
+import ru.laink.city.util.Constants.Companion.STATUS_IN_DEVELOPING
+import ru.laink.city.util.Constants.Companion.STATUS_REJECTED
 
 @Entity(
     tableName = "requests"
@@ -34,13 +34,13 @@ data class Request(
 
     override fun getSnippet(): String =
         when (type) {
-            TYPE_DONE -> {
+            STATUS_DONE -> {
                 MARKER_DONE
             }
-            TYPE_REJECTED -> {
+            STATUS_REJECTED -> {
                 MARKER_REJECTED
             }
-            TYPE_IN_DEVELOPING -> {
+            STATUS_IN_DEVELOPING -> {
                 MARKER_IN_DEVELOPING
             }
             else -> {

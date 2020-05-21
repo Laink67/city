@@ -30,6 +30,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_markers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -43,7 +44,10 @@
                 android:id="@+id/image_green"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.6"
+                android:alpha="0.4"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
                 android:tint="@color/green"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -54,7 +58,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:alpha="0.6"
+                android:alpha="0.4"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
                 android:tint="@color/colorRed"
                 app:layout_constraintEnd_toEndOf="@+id/image_green"
                 app:layout_constraintStart_toStartOf="@+id/image_green"
@@ -62,11 +69,15 @@
                 app:srcCompat="@drawable/ic_location_on" />
 
             <ImageView
-                android:id="@+id/image_blue"
+                android:id="@+id/image_yellow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:alpha="0.6"
+                android:alpha="0.4"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:tint="@color/yellow"
                 app:layout_constraintEnd_toEndOf="@+id/image_red"
                 app:layout_constraintStart_toStartOf="@+id/image_red"
                 app:layout_constraintTop_toBottomOf="@id/image_red"
@@ -77,9 +88,14 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="4dp"
-                app:layout_constraintEnd_toEndOf="@+id/image_blue"
-                app:layout_constraintStart_toStartOf="@+id/image_blue"
-                app:layout_constraintTop_toBottomOf="@id/image_blue"
+                android:layout_marginBottom="2dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/image_yellow"
+                app:layout_constraintStart_toStartOf="@+id/image_yellow"
+                app:layout_constraintTop_toBottomOf="@id/image_yellow"
                 app:srcCompat="@drawable/ic_map_pin" />
 
 

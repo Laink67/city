@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import ru.laink.city.R
 import ru.laink.city.firebase.FirebaseUserRepoImpl
-import ru.laink.city.ui.UserViewModelFactory
+import ru.laink.city.ui.factory.UserViewModelFactory
 import ru.laink.city.ui.viewmodels.UserViewModel
 import ru.laink.city.util.Resource
 
@@ -23,9 +23,10 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         super.onViewCreated(view, savedInstanceState)
 
         val fireBaseUserRepoImpl = FirebaseUserRepoImpl()
-        val viewModelProviderFactory = UserViewModelFactory(fireBaseUserRepoImpl)
+        val viewModelProviderFactory =
+            UserViewModelFactory(fireBaseUserRepoImpl)
         userViewModel =
-            ViewModelProvider(this, viewModelProviderFactory).get(UserViewModel::class.java)
+            ViewModelProviders.of(this, viewModelProviderFactory).get(UserViewModel::class.java)
 
         view.findViewById<ImageView>(R.id.map_image)?.setOnClickListener(
             Navigation.createNavigateOnClickListener(R.id.action_home_dest_to_map, null)
@@ -39,8 +40,14 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
             signOut()
         }
         view.findViewById<ImageView>(R.id.messages_image)?.setOnClickListener(
-            Navigation.createNavigateOnClickListener(R.id.own_requests_dest)
+            Navigation.createNavigateOnClickListener(R.id.action_home_dest_to_ownRequestsFragment)
         )
+        view.findViewById<ImageView>(R.id.voting_image)?.setOnClickListener(
+            Navigation.createNavigateOnClickListener(R.id.action_home_dest_to_voting)
+        )
+        view.findViewById<ImageView>(R.id.idea_image)?.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeDestToIdeas())
+        }
     }
 
     private fun signOut() {

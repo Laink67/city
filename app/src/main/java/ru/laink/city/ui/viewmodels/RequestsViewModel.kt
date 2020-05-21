@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.laink.city.firebase.FirebaseRequestRepoImpl
-import ru.laink.city.models.Request
-import ru.laink.city.models.RequestFirebase
+import ru.laink.city.models.request.Request
+import ru.laink.city.models.request.RequestFirebase
 import ru.laink.city.util.Resource
 import java.lang.Exception
 
@@ -67,5 +67,10 @@ class RequestsViewModel(
 
     private suspend fun insertToDb(list: List<Request>) {
         requestRepository.insertToDb(list)
+    }
+
+    fun getByStatus(status:Int) = viewModelScope.launch {
+        _resultRequests.postValue(Resource.Loading())
+        _resultRequests.postValue(Resource.build { requestRepository.getByStatus(status) })
     }
 }

@@ -1,4 +1,4 @@
-package ru.laink.city.ui.fragments
+package ru.laink.city.ui.fragments.addRequest
 
 import android.Manifest
 import android.app.Activity
@@ -9,20 +9,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.android.gms.maps.model.Marker
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.map_bottom_sheet.*
 import kotlinx.android.synthetic.main.map_fragment.*
 import ru.laink.city.R
+import ru.laink.city.ui.fragments.BaseFragment
 import ru.laink.city.util.Constants.Companion.REQUEST_LOCATION_PERMISSION
 import ru.laink.city.util.Constants.Companion.SMOLENSK_LATITUDE
 import ru.laink.city.util.Constants.Companion.SMOLENSK_LONGITUDE
@@ -36,8 +37,8 @@ open class AddMapFragment : BaseFragment(), OnMapReadyCallback{
     private lateinit var geocoder: Geocoder
     private lateinit var dialog: MaterialAlertDialogBuilder
     protected var googleMap: GoogleMap? = null
-    private val args: AddMapFragmentArgs by navArgs()
     private lateinit var mapFragment: SupportMapFragment
+    lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,6 +56,11 @@ open class AddMapFragment : BaseFragment(), OnMapReadyCallback{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        constraint_markers.alpha = 0.0f
+
+        bottomSheetBehavior = BottomSheetBehavior.from(map_bottom_sheet)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
         dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.addMarkerOnMapQuestion))
             .setNegativeButton(getString(R.string.no)) { _, _ -> }
@@ -65,11 +71,6 @@ open class AddMapFragment : BaseFragment(), OnMapReadyCallback{
             mapFragment =
                 childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
             mapFragment.getMapAsync(this)
-
-//            val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
-//            val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-//            fragmentTransaction.replace(R.id.map_fragment, mapFragment)
-//            fragmentTransaction.commit()
         }
     }
 

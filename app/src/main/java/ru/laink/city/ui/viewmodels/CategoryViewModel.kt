@@ -13,16 +13,12 @@ class CategoryViewModel(
     private val firebaseCategoryRepoImpl: FirebaseCategoryRepoImpl
 ) : ViewModel() {
 
-    private val _categoriesAnswer: MutableLiveData<Resource<List<Category>?, Exception>> =
+    private val _categoriesAnswer: MutableLiveData<Resource<Unit, Exception>> =
         MutableLiveData()
-    val categoriesAnswer: LiveData<Resource<List<Category>?, Exception>> = _categoriesAnswer
+    val categoriesAnswer: LiveData<Resource<Unit, Exception>> = _categoriesAnswer
     val localCategories = firebaseCategoryRepoImpl.localCategories
 
-//    init {
-//        getCategories()
-//    }
-
-    private fun getCategories() = viewModelScope.launch {
+    fun getCategories() = viewModelScope.launch {
         _categoriesAnswer.postValue(Resource.Loading())
 
         val categoriesResource = firebaseCategoryRepoImpl.getCategories()
@@ -30,13 +26,8 @@ class CategoryViewModel(
         if (categoriesResource is Resource.Error) {
             _categoriesAnswer.postValue(categoriesResource)
         } else {
-            _categoriesAnswer.postValue(Resource.Success(emptyList()))
-//            firebaseCategoryRepoImpl.insertToDb(categoriesResource.data!!)
+            _categoriesAnswer.postValue(Resource.Success(Unit))
+            firebaseCategoryRepoImpl.insertToDb(categoriesResource.data!!)
         }
     }
-
-//    fun getLocalCategories(): LiveData<List<Category>> = viewModelScope.launch {
-//        firebaseCategoryRepoImpl.getLocalCategory()
-//    }
-
 }

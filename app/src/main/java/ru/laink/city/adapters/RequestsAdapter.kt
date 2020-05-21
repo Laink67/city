@@ -9,10 +9,12 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.own_requests_fragment.view.*
 import kotlinx.android.synthetic.main.request_item_preview.view.*
 import ru.laink.city.R
-import ru.laink.city.models.Request
+import ru.laink.city.models.request.Request
+import ru.laink.city.util.Constants.Companion.STATUS_DONE
+import ru.laink.city.util.Constants.Companion.STATUS_IN_DEVELOPING
+import ru.laink.city.util.Constants.Companion.STATUS_REJECTED
 
 class RequestsAdapter(private val geocoder: Geocoder) :
     RecyclerView.Adapter<RequestsAdapter.ItemViewHolder>() {
@@ -72,6 +74,33 @@ class RequestsAdapter(private val geocoder: Geocoder) :
             date_text.text = request.date
             description_text.text = request.description
 
+            when (request.type) {
+                STATUS_DONE -> {
+                    request_item_constraint.setBackgroundColor(
+                        resources.getColor(
+                            R.color.pastelGreen2,
+                            null
+                        )
+                    )
+                }
+                STATUS_IN_DEVELOPING -> {
+                    request_item_constraint.setBackgroundColor(
+                        resources.getColor(
+                            R.color.pastelYellow,
+                            null
+                        )
+                    )
+                }
+                STATUS_REJECTED -> {
+                    request_item_constraint.setBackgroundColor(
+                        resources.getColor(
+                            R.color.colorRed,
+                            null
+                        )
+                    )
+                }
+            }
+
             setOnClickListener {
                 onItemClickListener?.let { it(request) }
             }
@@ -83,4 +112,5 @@ class RequestsAdapter(private val geocoder: Geocoder) :
     fun setOnItemClickListener(listener: (Request) -> Unit) {
         onItemClickListener = listener
     }
+
 }

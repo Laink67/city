@@ -1,4 +1,4 @@
-package ru.laink.city.ui.fragments
+package ru.laink.city.ui.fragments.addRequest
 
 import android.Manifest
 import android.app.Activity
@@ -15,9 +15,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.model.LatLng
@@ -30,8 +29,9 @@ import ru.laink.city.R
 import ru.laink.city.db.RequestDatabase
 import ru.laink.city.firebase.FirebaseRequestRepoImpl
 import ru.laink.city.models.Category
-import ru.laink.city.models.RequestFirebase
-import ru.laink.city.ui.RequestViewModelProviderFactory
+import ru.laink.city.models.request.RequestFirebase
+import ru.laink.city.ui.factory.RequestViewModelProviderFactory
+import ru.laink.city.ui.fragments.BaseFragment
 import ru.laink.city.ui.viewmodels.RequestsViewModel
 import ru.laink.city.util.Constants.Companion.CAMERA_PERMISSION_CODE
 import ru.laink.city.util.Constants.Companion.CAMERA_REQUEST_CODE
@@ -42,7 +42,7 @@ import java.util.*
 
 class AddMessageFragment : BaseFragment() {
 
-    lateinit var requestViewModel: RequestsViewModel
+    private lateinit var requestViewModel: RequestsViewModel
     private var bitmap: Bitmap? = null
     private lateinit var photoImage: ImageView
     private val args: AddMessageFragmentArgs by navArgs()
@@ -63,9 +63,12 @@ class AddMessageFragment : BaseFragment() {
         val latLng = args.latLng
 
         val requestRepository = FirebaseRequestRepoImpl(RequestDatabase(requireContext()))
-        val viewModelProviderFactory = RequestViewModelProviderFactory(requestRepository)
+        val viewModelProviderFactory =
+            RequestViewModelProviderFactory(
+                requestRepository
+            )
         requestViewModel =
-            ViewModelProvider(this, viewModelProviderFactory).get(RequestsViewModel::class.java)
+            ViewModelProviders.of(this, viewModelProviderFactory).get(RequestsViewModel::class.java)
 
         // Для форматирования даты в виде dd/MM/yyyy
         val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale("ru"))

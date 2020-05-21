@@ -21,13 +21,27 @@
         <action
             android:id="@+id/action_home_dest_to_ownRequestsFragment"
             app:destination="@id/own_requests_dest"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_home_dest_to_addMap"
             app:destination="@id/addMapFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_home_dest_to_voting"
+            app:destination="@id/votingFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_home_dest_to_ideas"
+            app:destination="@id/ideasFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -41,7 +55,7 @@
         tools:layout="@layout/map_fragment" />
     <fragment
         android:id="@+id/add_messaage_dest"
-        android:name="ru.laink.city.ui.fragments.AddMessageFragment"
+        android:name="ru.laink.city.ui.fragments.addRequest.AddMessageFragment"
         android:label="Добавить заявку"
         tools:layout="@layout/add_message_fragment">
         <argument
@@ -53,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/login_dest"
-        android:name="ru.laink.city.ui.fragments.LoginFragment"
+        android:name="ru.laink.city.ui.fragments.signInUp.LoginFragment"
         android:label="Вход"
         tools:layout="@layout/login_fragment">
         <action
@@ -74,24 +88,28 @@
     </fragment>
     <fragment
         android:id="@+id/registration_dest"
-        android:name="ru.laink.city.ui.fragments.RegistrationFragment"
+        android:name="ru.laink.city.ui.fragments.signInUp.RegistrationFragment"
         android:label="Регистрация"
-        tools:layout="@layout/registration_fragment"/>
+        tools:layout="@layout/registration_fragment" />
     <fragment
         android:id="@+id/categoriesFragment"
-        android:name="ru.laink.city.ui.fragments.CategoriesFragment"
+        android:name="ru.laink.city.ui.fragments.addRequest.CategoriesFragment"
         android:label="Выберите категорию"
         tools:layout="@layout/categories_fragment">
         <action
             android:id="@+id/action_categoriesFragment_to_add_messaage_dest"
-            app:destination="@id/add_messaage_dest" />
+            app:destination="@id/add_messaage_dest"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <argument
             android:name="latLng"
             app:argType="com.google.android.gms.maps.model.LatLng" />
     </fragment>
     <fragment
         android:id="@+id/addMapFragment"
-        android:name="ru.laink.city.ui.fragments.AddMapFragment"
+        android:name="ru.laink.city.ui.fragments.addRequest.AddMapFragment"
         android:label="Выберите расположение"
         tools:layout="@layout/map_fragment">
         <argument
@@ -108,10 +126,51 @@
     <fragment
         android:id="@+id/own_requests_dest"
         android:name="ru.laink.city.ui.fragments.OwnRequestsFragment"
-        android:label="OwnRequestsFragment">
+        android:label="Мои заявки"
+        tools:layout="@layout/own_requests_fragment">
         <deepLink
             android:id="@+id/deepLink2"
             app:uri="ru.laink.city.ui.fragments/OwnRequestsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/votingFragment"
+        android:name="ru.laink.city.ui.fragments.voting.VotingFragment"
+        android:label="Голосования"
+        tools:layout="@layout/voting_fragment">
+        <action
+            android:id="@+id/action_voting_to_single_vote_dest"
+            app:destination="@id/singleVoteFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/singleVoteFragment"
+        android:name="ru.laink.city.ui.fragments.voting.SingleVoteFragment"
+        android:label="Голосование"
+        tools:layout="@layout/single_vote_fragment">
+        <argument
+            android:name="vote"
+            app:argType="ru.laink.city.models.vote.Vote" />
+    </fragment>
+    <fragment
+        android:id="@+id/ideasFragment"
+        android:name="ru.laink.city.ui.fragments.IdeasFragment"
+        android:label="Мои идеи"
+        tools:layout="@layout/ideas_fragment">
+        <action
+            android:id="@+id/action_ideas_to_single_idea"
+            app:destination="@id/singleIdeaFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/singleIdeaFragment"
+        android:name="ru.laink.city.ui.fragments.SingleIdeaFragment"
+        android:label="SingleIdeaFragment"
+        tools:layout="@layout/idea_fragment" />
 
 </navigation>

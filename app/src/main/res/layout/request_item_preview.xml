@@ -7,8 +7,10 @@
     app:cardCornerRadius="3dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/request_item_constraint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/pastelPink"
         android:padding="8dp">
 
         <TextView
