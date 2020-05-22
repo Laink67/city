@@ -9,7 +9,10 @@ import ru.laink.city.db.RequestDatabase
 import ru.laink.city.models.idea.Idea
 import ru.laink.city.util.Constants.Companion.COLLECTION_IDEAS
 import ru.laink.city.util.Resource
+import ru.laink.city.util.toIdea
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class IdeaRepository(
     private val db: RequestDatabase,
@@ -18,10 +21,14 @@ class IdeaRepository(
 ) {
 
     val auth = FirebaseAuth.getInstance()
-    val localIdeas = db.getIdeaDao().getAll()
+    val localIdeas = db.getIdeaDao().getAllByUid(auth.uid!!)
 
     private suspend fun insertToDb(idea: Idea): Long {
         return db.getIdeaDao().insert(idea)
+    }
+
+    private suspend fun insertAllToDb(ideas: List<Idea>) {
+        db.getIdeaDao().insertAll(ideas)
     }
 
     private fun getByIdAndUid(id: Long, uid: String): Idea {
@@ -57,5 +64,28 @@ class IdeaRepository(
                 Resource.build { throw e }
             }
         }
+
+    suspend fun getAll(): Resource<Unit, Exception> = withContext(Dispatchers.IO) {
+        try {
+
+            val document = firestoreCollection.document(auth.uid.toString()).get().await()
+            val listOfMaps: ArrayList<HashMap<String, Any>> =
+                document.get("ideas") as ArrayList<HashMap<String, Any>>
+
+            insertAllToDb(resultToIdea(listOfMaps))
+            Resource.build { Unit }
+        } catch (e: Exception) {
+            Resource.build { throw e }
+        }
+    }
+
+    private fun resultToIdea(result: ArrayList<HashMap<String, Any>>): List<Idea> {
+        val list = mutableListOf<Idea>()
+
+        result.forEach { hashMap ->
+            list.add(hashMap.toIdea)
+        }
+        return list
+    }
 
 }

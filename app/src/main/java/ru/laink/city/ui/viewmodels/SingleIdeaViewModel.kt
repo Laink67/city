@@ -20,4 +20,5 @@ class SingleIdeaViewModel(
         _ideaAnswer.postValue(Resource.Loading())
         _ideaAnswer.postValue(ideaRepository.addToFirebaseById(idea))
     }
+
 }

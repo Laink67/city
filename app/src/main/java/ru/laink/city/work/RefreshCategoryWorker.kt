@@ -24,7 +24,7 @@ class RefreshCategoryWorker(appContext: Context, params: WorkerParameters) :
                 repository.insertToDb(resource.data!!)
             }
 
-            Timber.d("Work request for sync is run")
+            Timber.d("Work request to refresh category for sync is run")
         } catch (exception: Exception) {
             return Result.retry()
         }

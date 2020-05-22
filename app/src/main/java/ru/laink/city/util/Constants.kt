@@ -15,6 +15,7 @@ class Constants {
 
         const val WORK_CATEGORY = "ru.laink.city.work.RefreshCategoryWorker"
         const val WORK_REQUEST = "ru.laink.city.work.RefreshRequestWorker"
+        const val WORK_DELETE = "ru.laink.city.work.DeleteLocalDataWork"
 
         const val IMAGE_EXPANSION = "png"
 

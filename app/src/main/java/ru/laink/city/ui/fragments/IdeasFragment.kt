@@ -22,6 +22,12 @@ class IdeasFragment : Fragment(R.layout.ideas_fragment) {
     private lateinit var ideasViewModel: IdeasViewModel
     private lateinit var ideaAdapter: IdeaAdapter
 
+    override fun onStart() {
+        super.onStart()
+
+        swipe_ideas.isRefreshing = false
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val db = RequestDatabase(requireContext())
@@ -38,6 +44,7 @@ class IdeasFragment : Fragment(R.layout.ideas_fragment) {
             ideaAdapter.differ.submitList(ideas)
         })
 
+        onRefresh()
         addButtonClick()
         listenIdeas()
     }
@@ -45,6 +52,12 @@ class IdeasFragment : Fragment(R.layout.ideas_fragment) {
     private fun addButtonClick() {
         add_idea_button.setOnClickListener {
             findNavController().navigate(R.id.action_ideas_to_single_idea)
+        }
+    }
+
+    private fun onRefresh() {
+        swipe_ideas.setOnRefreshListener {
+            ideasViewModel.getAll()
         }
     }
 
