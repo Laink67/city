@@ -41,7 +41,8 @@ class OwnRequestsFragment : BaseFragment() {
         val firebaseRequestRepoImpl = FirebaseRequestRepoImpl(db)
         val viewModelProviderFactory =
             RequestViewModelProviderFactory(
-                firebaseRequestRepoImpl
+                firebaseRequestRepoImpl,
+                requireContext()
             )
         requestsViewModel =
             ViewModelProviders.of(this, viewModelProviderFactory).get(RequestsViewModel::class.java)

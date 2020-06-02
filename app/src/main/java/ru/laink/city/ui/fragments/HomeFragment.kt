@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import ru.laink.city.R
@@ -28,7 +29,7 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         userViewModel =
             ViewModelProviders.of(this, viewModelProviderFactory).get(UserViewModel::class.java)
 
-        view.findViewById<ImageView>(R.id.map_image)?.setOnClickListener(
+        view.findViewById<MaterialCardView>(R.id.map_image)?.setOnClickListener(
             Navigation.createNavigateOnClickListener(R.id.action_home_dest_to_map, null)
         )
 
@@ -36,16 +37,16 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
             Navigation.createNavigateOnClickListener(R.id.action_home_dest_to_addMap, null)
         )
 
-        view.findViewById<ImageView>(R.id.sign_out_image)?.setOnClickListener {
+        view.findViewById<MaterialCardView>(R.id.sign_out_image)?.setOnClickListener {
             signOut()
         }
-        view.findViewById<ImageView>(R.id.messages_image)?.setOnClickListener(
+        view.findViewById<MaterialCardView>(R.id.messages_image)?.setOnClickListener(
             Navigation.createNavigateOnClickListener(R.id.action_home_dest_to_ownRequestsFragment)
         )
-        view.findViewById<ImageView>(R.id.voting_image)?.setOnClickListener(
+        view.findViewById<MaterialCardView>(R.id.voting_image)?.setOnClickListener(
             Navigation.createNavigateOnClickListener(R.id.action_home_dest_to_voting)
         )
-        view.findViewById<ImageView>(R.id.idea_image)?.setOnClickListener {
+        view.findViewById<MaterialCardView>(R.id.idea_image)?.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeDestToIdeas())
         }
     }

@@ -35,5 +35,10 @@ class Constants {
         const val MARKER_IN_DEVELOPING = "В РАЗРАБОТКЕ"
 
         const val TWO_SIGNS_FORMAT = "%.2f"
+
+        const val VOCAB_FILENAME = "word_dict.json"
+        const val MODEL_FILENAME = "model_classification.tflite"
+
+        const val MAX_LEN = 54813
     }
 }

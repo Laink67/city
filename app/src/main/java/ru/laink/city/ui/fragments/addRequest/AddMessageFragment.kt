@@ -25,6 +25,8 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.add_message_fragment.*
+import org.tensorflow.lite.Interpreter
+import ru.laink.city.ml.Classifier
 import ru.laink.city.R
 import ru.laink.city.db.RequestDatabase
 import ru.laink.city.firebase.FirebaseRequestRepoImpl
@@ -36,7 +38,11 @@ import ru.laink.city.ui.viewmodels.RequestsViewModel
 import ru.laink.city.util.Constants.Companion.CAMERA_PERMISSION_CODE
 import ru.laink.city.util.Constants.Companion.CAMERA_REQUEST_CODE
 import ru.laink.city.util.Constants.Companion.GALLERY_REQUEST_CODE
+import ru.laink.city.util.Constants.Companion.MODEL_FILENAME
 import ru.laink.city.util.Resource
+import java.io.FileInputStream
+import java.nio.MappedByteBuffer
+import java.nio.channels.FileChannel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -65,10 +71,14 @@ class AddMessageFragment : BaseFragment() {
         val requestRepository = FirebaseRequestRepoImpl(RequestDatabase(requireContext()))
         val viewModelProviderFactory =
             RequestViewModelProviderFactory(
-                requestRepository
+                requestRepository,
+                requireContext()
             )
         requestViewModel =
             ViewModelProviders.of(this, viewModelProviderFactory).get(RequestsViewModel::class.java)
+
+        // Создание интерпретатора TensorFlowLite
+        requestViewModel.createInterpreter()
 
         // Для форматирования даты в виде dd/MM/yyyy
         val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale("ru"))
@@ -124,6 +134,10 @@ class AddMessageFragment : BaseFragment() {
         }
 
         // Прослушивание ответа добавленных
+        addRequestListener()
+    }
+
+    private fun addRequestListener() {
         requestViewModel.resultUpsert.observe(viewLifecycleOwner, Observer { resource ->
             when (resource) {
                 is Resource.Loading -> {

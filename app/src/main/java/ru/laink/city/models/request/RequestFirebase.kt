@@ -12,7 +12,7 @@ data class RequestFirebase(
     val longitude: Double? = SMOLENSK_LONGITUDE,
     val authorId: String?,
     val categoryId: Int? = 0,
-    val type: Int? = STATUS_IN_DEVELOPING   // -1 - отклонено, 0 - в разработке, 1 - сделано
+    var type: Int? = STATUS_IN_DEVELOPING   // -1 - отклонено, 0 - в разработке, 1 - сделано
 ) {
-    constructor() : this("", "", "", SMOLENSK_LATITUDE, SMOLENSK_LONGITUDE, "", 0)
+    constructor() : this("", "", "", SMOLENSK_LATITUDE, SMOLENSK_LONGITUDE, "", 0, STATUS_IN_DEVELOPING)
 }

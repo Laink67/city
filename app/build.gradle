@@ -39,6 +39,10 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8
     }
 
+    aaptOptions {
+        noCompress "tflite"
+    }
+
 }
 
 dependencies {
@@ -100,4 +104,7 @@ dependencies {
 
     //RefreshLayout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+    //TFLite
+    implementation 'org.tensorflow:tensorflow-lite:1.14.0'
 }

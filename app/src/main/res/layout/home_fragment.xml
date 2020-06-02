@@ -1,6 +1,5 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,36 +12,46 @@
             android:layout_height="match_parent"
             android:layout_margin="16dp">
 
-            <ImageView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/map_image"
-                style="@style/MenuImages"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
                 android:layout_marginEnd="16dp"
-                android:background="@color/pastelYellow"
                 android:clickable="true"
                 android:focusable="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_map_pin"
                 app:layout_constraintEnd_toStartOf="@+id/guideline"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
+                <ImageView
+                    style="@style/MenuImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/pastelYellow"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_map_pin" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/voting_image"
-                style="@style/MenuImages"
                 android:layout_width="0dp"
                 android:layout_height="250dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="#E7ECFF"
                 android:clickable="true"
                 android:focusable="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_voting"
                 app:layout_constraintEnd_toStartOf="@+id/guideline"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/map_image" />
+                app:layout_constraintTop_toBottomOf="@+id/map_image">
+
+                <ImageView
+                    style="@style/MenuImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#E7ECFF"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_voting" />
+            </com.google.android.material.card.MaterialCardView>
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline"
@@ -53,89 +62,85 @@
                 app:layout_constraintGuide_percent="0.5"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <ImageView
-                android:id="@+id/district_image"
-                style="@style/MenuImages"
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/messages_image"
                 android:layout_width="0dp"
                 android:layout_height="250dp"
-                android:background="@color/pastelBlue"
                 android:clickable="true"
                 android:focusable="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_district"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/guideline"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_district" />
-
-            <ImageView
-                android:id="@+id/messages_image"
-                style="@style/MenuImages"
-                android:layout_width="0dp"
-                android:layout_height="150dp"
-                android:layout_marginTop="16dp"
-                android:background="#AAB9EC"
-                android:clickable="true"
-                android:focusable="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_request"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
-                app:layout_constraintTop_toBottomOf="@+id/district_image" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
+                <ImageView
+                    style="@style/MenuImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#AAB9EC"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_request" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/idea_image"
-                style="@style/MenuImages"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
+                android:layout_height="210dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="@color/pastelPink"
                 android:clickable="true"
                 android:focusable="true"
-                android:src="@drawable/ic_idea"
                 app:layout_constraintEnd_toStartOf="@+id/guideline"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/voting_image" />
+                app:layout_constraintTop_toBottomOf="@+id/voting_image">
 
-            <ImageView
-                android:id="@+id/imageView6"
-                style="@style/MenuImages"
+                <ImageView
+                    style="@style/MenuImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/pastelPink"
+                    android:src="@drawable/ic_idea" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/info_card"
                 android:layout_width="0dp"
-                android:layout_height="250dp"
+                android:layout_height="170dp"
                 android:layout_marginTop="16dp"
-                android:background="@color/colorRed"
-                android:src="@drawable/ic_education"
+                android:clickable="true"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/guideline"
-                app:layout_constraintTop_toBottomOf="@+id/messages_image" />
+                app:layout_constraintTop_toBottomOf="@+id/messages_image">
 
-            <ImageView
-                android:id="@+id/admin_image"
-                style="@style/MenuImages"
-                android:layout_width="0dp"
-                android:layout_height="200dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/pastelGreen"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_admin"
-                app:layout_constraintEnd_toStartOf="@+id/guideline"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/idea_image" />
+                <ImageView
+                    style="@style/MenuImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorRed"
+                    android:src="@drawable/ic_education" />
+            </com.google.android.material.card.MaterialCardView>
 
-            <ImageView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/sign_out_image"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
+                android:layout_height="240dp"
                 android:layout_marginTop="16dp"
-                android:scaleType="fitCenter"
-                android:background="?attr/selectableItemBackground"
+                android:layout_marginBottom="16dp"
+                android:clickable="true"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
-                app:layout_constraintTop_toBottomOf="@+id/imageView6"
-                app:srcCompat="@drawable/ic_sign_out" />
+                app:layout_constraintTop_toBottomOf="@+id/info_card">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorViolet"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/ic_sign_out" />
+            </com.google.android.material.card.MaterialCardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

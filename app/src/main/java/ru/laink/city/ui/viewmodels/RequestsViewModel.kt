@@ -1,5 +1,6 @@
 package ru.laink.city.ui.viewmodels
 
+import android.content.Context
 import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,12 +11,14 @@ import ru.laink.city.firebase.FirebaseRequestRepoImpl
 import ru.laink.city.models.request.Request
 import ru.laink.city.models.request.RequestFirebase
 import ru.laink.city.util.Resource
-import java.lang.Exception
+import ru.laink.city.ml.HelperClassifier
 
 class RequestsViewModel(
-    private val requestRepository: FirebaseRequestRepoImpl
+    private val requestRepository: FirebaseRequestRepoImpl,
+    context: Context
 ) : ViewModel() {
 
+    private val helperClassifier = HelperClassifier(context)
     private val _resultUpsert: MutableLiveData<Resource<Unit, Exception>> = MutableLiveData()
     private val _resultRequests: MutableLiveData<Resource<List<Request>, Exception>> =
         MutableLiveData()
@@ -27,6 +30,10 @@ class RequestsViewModel(
     fun upsertRequest(requestFirebase: RequestFirebase, bitmap: Bitmap) =
         viewModelScope.launch {
             _resultUpsert.postValue(Resource.Loading())
+
+            // Проверка на нецензурную лексику с помощью ML
+            requestFirebase.type = classifyMessage(requestFirebase.description!!)
+
             _resultUpsert.postValue(
                 requestRepository.upsertRequestFirebase(
                     requestFirebase,
@@ -39,18 +46,6 @@ class RequestsViewModel(
         _resultRequests.postValue(Resource.Loading())
         _resultRequests.postValue(requestRepository.getAllRequests())
     }
-
-//    fun getOwnRequests() = viewModelScope.launch {
-//        _resultRequests.postValue(Resource.Loading())
-//
-//        val requestResource = requestRepository.getUserRequests()
-//
-//        if (requestResource is Resource.Error)
-//            _resultRequests.postValue(requestResource)
-//        else
-//            _resultRequests.postValue(Resource.Success(emptyList()))
-//    }
-
 
     fun getAndInsert() = viewModelScope.launch {
         _resultRequests.postValue(Resource.Loading())
@@ -69,8 +64,16 @@ class RequestsViewModel(
         requestRepository.insertToDb(list)
     }
 
-    fun getByStatus(status:Int) = viewModelScope.launch {
+    fun getByStatus(status: Int) = viewModelScope.launch {
         _resultRequests.postValue(Resource.Loading())
         _resultRequests.postValue(Resource.build { requestRepository.getByStatus(status) })
+    }
+
+    fun createInterpreter() {
+        helperClassifier.createInterpreter()
+    }
+
+    private fun classifyMessage(message: String): Int {
+        return helperClassifier.classifyMessage(message)
     }
 }
