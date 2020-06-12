@@ -27,7 +27,19 @@ class RequestsViewModel(
     val resultRequest: LiveData<Resource<List<Request>, Exception>> = _resultRequests
     val localOwnRequests = requestRepository.localOwnRequests
 
-    fun upsertRequest(requestFirebase: RequestFirebase, bitmap: Bitmap) =
+    fun undoRequest(request: Request) = viewModelScope.launch {
+        _resultUpsert.postValue(Resource.Loading())
+        _resultUpsert.postValue(
+            requestRepository.undoRequest(request)
+        )
+    }
+
+    fun deleteRequest(request: Request) = viewModelScope.launch {
+        _resultUpsert.postValue(Resource.Loading())
+        _resultUpsert.postValue(requestRepository.deleteRequest(request))
+    }
+
+    fun insertRequest(requestFirebase: RequestFirebase, bitmap: Bitmap) =
         viewModelScope.launch {
             _resultUpsert.postValue(Resource.Loading())
 
@@ -35,7 +47,7 @@ class RequestsViewModel(
             requestFirebase.type = classifyMessage(requestFirebase.description!!)
 
             _resultUpsert.postValue(
-                requestRepository.upsertRequestFirebase(
+                requestRepository.insertRequestFirebase(
                     requestFirebase,
                     bitmap
                 )
@@ -61,7 +73,7 @@ class RequestsViewModel(
     }
 
     private suspend fun insertToDb(list: List<Request>) {
-        requestRepository.insertToDb(list)
+        requestRepository.insertAllToDb(list)
     }
 
     fun getByStatus(status: Int) = viewModelScope.launch {

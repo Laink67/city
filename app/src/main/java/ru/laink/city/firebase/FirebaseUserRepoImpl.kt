@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import ru.laink.city.models.User
+import ru.laink.city.util.Constants.Companion.NOT_VALID_DATA
 import ru.laink.city.util.Resource
 
 class FirebaseUserRepoImpl(private val auth: FirebaseAuth = FirebaseAuth.getInstance()) {
@@ -74,8 +75,7 @@ class FirebaseUserRepoImpl(private val auth: FirebaseAuth = FirebaseAuth.getInst
         return if (firebaseUser != null) {
             Resource.build { User(firebaseUser.uid, firebaseUser.displayName ?: "Null") }
         } else {
-            Resource.Error("Данные не соответствуют требованиям")
+            Resource.Error(NOT_VALID_DATA)
         }
     }
-
 }

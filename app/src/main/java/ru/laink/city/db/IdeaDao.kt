@@ -1,10 +1,7 @@
 package ru.laink.city.db
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import ru.laink.city.models.idea.Idea
 
 @Dao
@@ -22,7 +19,9 @@ interface IdeaDao {
     @Query("SELECT * FROM ideas WHERE userId=:uid")
     fun getAllByUid(uid: String): LiveData<List<Idea>>
 
-
     @Query("SELECT * FROM ideas WHERE id=:id AND userId=:uid")
     fun getById(id: Long, uid: String): Idea
+
+    @Query("DELETE FROM ideas WHERE id = :id")
+    fun deleteById(id: Long)
 }

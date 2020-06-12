@@ -27,6 +27,18 @@ internal fun firebaseRequestToRequest(
         requestFirebase.type!!
     )
 
+internal fun requestToFirebaseRequest(request: Request): RequestFirebase =
+    RequestFirebase(
+        title = request.title,
+        date = request.date,
+        description = request.description,
+        latitude = request.latitude,
+        longitude = request.longitude,
+        authorId = request.authorId,
+        categoryId = request.categoryId,
+        type = request.type
+    )
+
 internal fun voteFirebaseToVote(
     id: String,
     voteFirebase: VoteFirebase

@@ -20,7 +20,7 @@ class RefreshRequestsWorker(appContext: Context, params: WorkerParameters) :
             val resource = repository.getUserRequests()
 
             if (resource is Resource.Success) {
-                repository.insertToDb(resource.data!!)
+                repository.insertAllToDb(resource.data!!)
             }
 
             Timber.d("Work request for sync is run")

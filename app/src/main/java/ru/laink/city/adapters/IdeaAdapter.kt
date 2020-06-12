@@ -85,4 +85,7 @@ class IdeaAdapter : RecyclerView.Adapter<IdeaAdapter.IdeaViewHolder>() {
         onItemClickListener = listener
     }
 
+    fun get(viewHolder: RecyclerView.ViewHolder): Idea {
+        return differ.currentList[viewHolder.adapterPosition]
+    }
 }

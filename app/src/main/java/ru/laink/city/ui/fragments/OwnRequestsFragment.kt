@@ -5,9 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.own_requests_fragment.*
 import ru.laink.city.R
 import ru.laink.city.adapters.RequestsAdapter
@@ -16,7 +20,7 @@ import ru.laink.city.firebase.FirebaseRequestRepoImpl
 import ru.laink.city.ui.factory.RequestViewModelProviderFactory
 import ru.laink.city.ui.viewmodels.RequestsViewModel
 
-class OwnRequestsFragment : BaseFragment() {
+class OwnRequestsFragment : Fragment() {
 
     private lateinit var requestsViewModel: RequestsViewModel
     private lateinit var requestAdapter: RequestsAdapter
@@ -47,7 +51,6 @@ class OwnRequestsFragment : BaseFragment() {
         requestsViewModel =
             ViewModelProviders.of(this, viewModelProviderFactory).get(RequestsViewModel::class.java)
 
-
         val geocoder = Geocoder(requireContext())
         setColorLoading()
 
@@ -63,7 +66,6 @@ class OwnRequestsFragment : BaseFragment() {
             requestAdapter.differ.submitList(list)
             swipe_own_request_layout.isRefreshing = false
         })
-
     }
 
     private fun setUpRecyclerView(geocoder: Geocoder) {
@@ -72,7 +74,41 @@ class OwnRequestsFragment : BaseFragment() {
         rv_own_requests.apply {
             adapter = requestAdapter
             layoutManager = LinearLayoutManager(activity)
+
+            val itemTouchHelperCallback =
+                object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+                    override fun onMove(
+                        recyclerView: RecyclerView,
+                        viewHolder: RecyclerView.ViewHolder,
+                        target: RecyclerView.ViewHolder
+                    ): Boolean {
+                        return false
+                    }
+
+                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                        val request = (adapter as RequestsAdapter).get(viewHolder)
+
+
+                        if (request != null) {
+                            // Удаление идеи
+                            requestsViewModel.deleteRequest(request)
+
+                            // Сообщение с возможностью отмены удаления
+                            Snackbar.make(requireView(), "Request deleted", Snackbar.LENGTH_LONG)
+                                .setAction("UNDO") {
+                                    requestsViewModel.undoRequest(request)
+                                }.show()
+                        } else {
+                            Snackbar.make(requireView(), "Can't find request", Snackbar.LENGTH_LONG)
+                                .show()
+                        }
+                    }
+                }
+
+            val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+            itemTouchHelper.attachToRecyclerView(this)
         }
+
     }
 
     private fun setColorLoading() {

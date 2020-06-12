@@ -10,6 +10,7 @@ import kotlinx.coroutines.withContext
 import ru.laink.city.models.vote.Vote
 import ru.laink.city.models.vote.VoteFirebase
 import ru.laink.city.util.Constants
+import ru.laink.city.util.Constants.Companion.ANSWER_STR
 import ru.laink.city.util.Resource
 import ru.laink.city.util.voteFirebaseToVote
 
@@ -62,7 +63,7 @@ class VotingRepository(
     suspend fun changeAnswer(id: String, answerTitle: String): Resource<Unit, Exception> =
         withContext(Dispatchers.IO) {
             try {
-                firestore.document(id).update("answer.${answerTitle}", FieldValue.increment(1))
+                firestore.document(id).update("${ANSWER_STR}.${answerTitle}", FieldValue.increment(1))
 
                 Resource.build { Unit }
             } catch (e: Exception) {

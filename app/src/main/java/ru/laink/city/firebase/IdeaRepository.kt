@@ -8,6 +8,7 @@ import kotlinx.coroutines.withContext
 import ru.laink.city.db.RequestDatabase
 import ru.laink.city.models.idea.Idea
 import ru.laink.city.util.Constants.Companion.COLLECTION_IDEAS
+import ru.laink.city.util.Constants.Companion.IDEAS_STR
 import ru.laink.city.util.Resource
 import ru.laink.city.util.toIdea
 import java.util.*
@@ -23,6 +24,10 @@ class IdeaRepository(
     val auth = FirebaseAuth.getInstance()
     val localIdeas = db.getIdeaDao().getAllByUid(auth.uid!!)
 
+    suspend fun deleteFromDb(id: Long) {
+        db.getIdeaDao().deleteById(id)
+    }
+
     private suspend fun insertToDb(idea: Idea): Long {
         return db.getIdeaDao().insert(idea)
     }
@@ -35,6 +40,26 @@ class IdeaRepository(
         return db.getIdeaDao().getById(id, uid)
     }
 
+    suspend fun delete(idea: Idea): Resource<Unit, Exception> = withContext(Dispatchers.IO) {
+        try {
+            deleteFromDb(idea.id!!)
+            idea.userId = auth.currentUser!!.uid
+
+            val document = firestoreCollection.document(idea.userId!!)
+
+            document
+                .update(
+                    IDEAS_STR, FieldValue.arrayRemove(
+                        idea
+                    )
+                )
+
+            Resource.build { Unit }
+        } catch (e: Exception) {
+            Resource.build { throw e }
+        }
+    }
+
     suspend fun addToFirebaseById(idea: Idea): Resource<Unit, Exception> =
         withContext(Dispatchers.IO) {
             try {
@@ -45,12 +70,12 @@ class IdeaRepository(
                 val documentObject = document.get().await()
 
                 if (!documentObject.exists()) {
-                    document.set(mapOf("ideas" to 0))
+                    document.set(mapOf(IDEAS_STR to 0))
                 }
 
                 document
                     .update(
-                        "ideas", FieldValue.arrayUnion(
+                        IDEAS_STR, FieldValue.arrayUnion(
                             getByIdAndUid(
                                 ideaId,
                                 idea.userId!!
@@ -70,7 +95,7 @@ class IdeaRepository(
 
             val document = firestoreCollection.document(auth.uid.toString()).get().await()
             val listOfMaps: ArrayList<HashMap<String, Any>> =
-                document.get("ideas") as ArrayList<HashMap<String, Any>>
+                document.get(IDEAS_STR) as ArrayList<HashMap<String, Any>>
 
             insertAllToDb(resultToIdea(listOfMaps))
             Resource.build { Unit }

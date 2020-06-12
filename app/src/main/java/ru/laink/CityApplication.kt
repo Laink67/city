@@ -24,15 +24,9 @@ class CityApplication : Application() {
         delayedInit()
     }
 
-    // Настройка повторяющеся фоновой работы
+    // Настройка повторяющяяся фоновой работы
     private fun setupRecurringWork() {
-/*
-        // Ограничение сетевого типа
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.UNMETERED)
-            .build()
-*/
-        // Периодический запрос один раз в сутики
+        // Периодический запрос один раз в сутки
         val repeatingCategory = PeriodicWorkRequestBuilder<RefreshCategoryWorker>(1, TimeUnit.DAYS)
 //            .setConstraints(constraints) // Установка ограничений
             .build()

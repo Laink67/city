@@ -6,12 +6,12 @@ import androidx.fragment.app.Fragment
 
 open class BaseFragment() : Fragment() {
 
-    fun hideProgressBar(progressBar: ProgressBar) {
-        progressBar.visibility = View.INVISIBLE
+    fun showProgressBar(progressBar: ProgressBar){
+        progressBar.visibility = View.VISIBLE
     }
 
-    fun showProgressBar(progressBar: ProgressBar) {
-        progressBar.visibility = View.VISIBLE
+    fun hideProgressBar(progressBar: ProgressBar){
+        progressBar.visibility = View.INVISIBLE
     }
 
 }

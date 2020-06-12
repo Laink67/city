@@ -54,11 +54,9 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
     private fun signOut() {
         val resource = userViewModel.signOut()
         if (resource is Resource.Success) {
-//            findNavController().popBackStack()
-            findNavController().navigateUp()/*navigate(R.id.action_home_dest_to_login_dest)*/
+            findNavController().navigateUp()
         } else {
             Snackbar.make(requireView(), "Ошибка: ${resource.message}", 1000).show()
         }
     }
-
 }

@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.ideas_fragment.*
 import ru.laink.city.R
@@ -24,7 +26,6 @@ class IdeasFragment : Fragment(R.layout.ideas_fragment) {
 
     override fun onStart() {
         super.onStart()
-
         swipe_ideas.isRefreshing = false
     }
 
@@ -84,6 +85,33 @@ class IdeasFragment : Fragment(R.layout.ideas_fragment) {
         ideas_recycler.apply {
             adapter = ideaAdapter
             layoutManager = LinearLayoutManager(activity)
+
+            val itemTouchHelperCallback =
+                object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+                    override fun onMove(
+                        recyclerView: RecyclerView,
+                        viewHolder: RecyclerView.ViewHolder,
+                        target: RecyclerView.ViewHolder
+                    ): Boolean {
+                        return false
+                    }
+
+                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                        val idea = (adapter as IdeaAdapter).get(viewHolder)
+
+                        // Удаление идеи
+                        ideasViewModel.removeItem(idea)
+
+                        // Сообщение с возможностью отмены удаления
+                        Snackbar.make(requireView(), "Idea deleted", Snackbar.LENGTH_LONG)
+                            .setAction("UNDO") {
+                                ideasViewModel.insert(idea)
+                            }.show()
+                    }
+                }
+
+            val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+            itemTouchHelper.attachToRecyclerView(this)
         }
     }
 }

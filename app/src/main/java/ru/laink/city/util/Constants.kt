@@ -40,5 +40,9 @@ class Constants {
         const val MODEL_FILENAME = "model_classification.tflite"
 
         const val MAX_LEN = 54813
+
+        const val ANSWER_STR = "answer"
+        const val IDEAS_STR = "ideas"
+        const val  NOT_VALID_DATA = "Данные не соответствуют требованиям"
     }
 }

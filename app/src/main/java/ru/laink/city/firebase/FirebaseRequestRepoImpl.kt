@@ -18,6 +18,7 @@ import ru.laink.city.util.Constants.Companion.IMAGE_EXPANSION
 import ru.laink.city.util.Constants.Companion.STATUS_ALL
 import ru.laink.city.util.Resource
 import ru.laink.city.util.firebaseRequestToRequest
+import ru.laink.city.util.requestToFirebaseRequest
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.*
@@ -38,7 +39,7 @@ class FirebaseRequestRepoImpl(
 
             val requests = resultToRequestList(querySnapshot)
 
-            insertToDb(requests)
+            insertAllToDb(requests)
 
             Resource.build { requests }
         } catch (exception: Exception) {
@@ -46,7 +47,48 @@ class FirebaseRequestRepoImpl(
         }
     }
 
-    suspend fun upsertRequestFirebase(
+    suspend fun deleteRequest(request: Request): Resource<Unit, Exception> =
+        withContext(Dispatchers.IO) {
+            try {
+                val documents = firestoreCollection
+                    .whereEqualTo("description", request.description).get().await()
+
+                documents.forEach { document ->
+                    document.reference.delete()
+                }
+                // Удаление локальной записи
+                deleteFromDb(request)
+
+                Resource.build { Unit }
+            } catch (e: Exception) {
+                Resource.build { throw e }
+            }
+        }
+
+    suspend fun undoRequest(request: Request): Resource<Unit, Exception> =
+        withContext(Dispatchers.IO) {
+            try {
+
+                val firebaseUser = auth.currentUser
+                // Id документа для добавления заявки
+                val documentId = UUID.randomUUID()
+                val requestFirebase = requestToFirebaseRequest(request)
+
+                if (firebaseUser != null) {
+                    firestoreCollection.document(documentId.toString()).set(
+                        requestFirebase
+                    ).await()
+                }
+
+                insertToDb(request)
+
+                Resource.build { Unit }
+            } catch (e: Exception) {
+                Resource.build { throw e }
+            }
+        }
+
+    suspend fun insertRequestFirebase(
         requestFirebase: RequestFirebase,
         bitmap: Bitmap
     ): Resource<Unit, Exception> =
@@ -136,8 +178,16 @@ class FirebaseRequestRepoImpl(
         return list
     }
 
-    suspend fun insertToDb(requests: List<Request>) {
+    suspend fun insertAllToDb(requests: List<Request>) {
         db.getRequestDao().insertAll(requests)
+    }
+
+    private suspend fun insertToDb(request: Request) {
+        db.getRequestDao().upsert(request)
+    }
+
+    private suspend fun deleteFromDb(request: Request) {
+        db.getRequestDao().deleteRequest(request)
     }
 
     suspend fun getByStatus(status: Int) =

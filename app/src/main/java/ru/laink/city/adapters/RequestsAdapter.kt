@@ -4,6 +4,7 @@ import android.location.Geocoder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -111,6 +112,11 @@ class RequestsAdapter(private val geocoder: Geocoder) :
 
     fun setOnItemClickListener(listener: (Request) -> Unit) {
         onItemClickListener = listener
+    }
+
+    fun get(viewHolder: RecyclerView.ViewHolder): Request? {
+        viewHolder.itemView.findViewById<ImageView>(R.id.request_image)
+        return differ.currentList[viewHolder.adapterPosition]
     }
 
 }
