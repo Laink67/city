@@ -160,7 +160,7 @@ class FirebaseRequestRepoImpl(
             // Получение ссылки на хранилище
             val storageReference: Uri? = try {
                 storage.getReference(
-                    "${auth.currentUser!!.uid}/${documentSnapshot.id}.$IMAGE_EXPANSION"
+                    "${requestFirebase.authorId}/${documentSnapshot.id}.$IMAGE_EXPANSION"
                 ).downloadUrl.await()
             } catch (e: Exception) {
                 null
