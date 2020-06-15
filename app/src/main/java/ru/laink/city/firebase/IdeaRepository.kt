@@ -24,7 +24,7 @@ class IdeaRepository(
     val auth = FirebaseAuth.getInstance()
     val localIdeas = db.getIdeaDao().getAllByUid(auth.uid!!)
 
-    suspend fun deleteFromDb(id: Long) {
+    fun deleteFromDb(id: Long) {
         db.getIdeaDao().deleteById(id)
     }
 
@@ -39,6 +39,10 @@ class IdeaRepository(
     private fun getByIdAndUid(id: Long, uid: String): Idea {
         return db.getIdeaDao().getById(id, uid)
     }
+
+//    private suspend fun updateIdeaInDb(idea: Idea) {
+//        return db.getIdeaDao().update(idea)
+//    }
 
     suspend fun delete(idea: Idea): Resource<Unit, Exception> = withContext(Dispatchers.IO) {
         try {
@@ -112,5 +116,16 @@ class IdeaRepository(
         }
         return list
     }
+
+//    fun update(idea: Idea): Resource<Unit, Exception>? = withContext(Dispatchers.IO) {
+//        try{
+//            val id = UUID.randomUUID().toString()
+//
+//            Resource.build { Unit }
+//        }
+//        catch (e:Exception){
+//            Resource.build { throw e }
+//        }
+//    }
 
 }

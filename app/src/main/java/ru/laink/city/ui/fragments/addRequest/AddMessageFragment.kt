@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -28,7 +29,6 @@ import kotlinx.android.synthetic.main.add_message_fragment.*
 import ru.laink.city.R
 import ru.laink.city.db.RequestDatabase
 import ru.laink.city.firebase.FirebaseRequestRepoImpl
-import ru.laink.city.models.Category
 import ru.laink.city.models.request.RequestFirebase
 import ru.laink.city.ui.factory.RequestViewModelProviderFactory
 import ru.laink.city.ui.fragments.BaseFragment
@@ -40,10 +40,10 @@ import ru.laink.city.util.Resource
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AddMessageFragment : BaseFragment() {
+open class AddMessageFragment : BaseFragment() {
 
-    private lateinit var requestViewModel: RequestsViewModel
-    private var bitmap: Bitmap? = null
+    protected lateinit var requestViewModel: RequestsViewModel
+    protected var bitmap: Bitmap? = null
     private lateinit var photoImage: ImageView
     private val args: AddMessageFragmentArgs by navArgs()
 
@@ -59,8 +59,8 @@ class AddMessageFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         photoImage = view.findViewById(R.id.photo_image)
-        val category = args.category
-        val latLng = args.latLng
+        val categoryId = getCategoryId()
+        val latLng = getLatLng()
 
         val requestRepository = FirebaseRequestRepoImpl(RequestDatabase(requireContext()))
         val viewModelProviderFactory =
@@ -124,11 +124,19 @@ class AddMessageFragment : BaseFragment() {
         }
 
         view.findViewById<MaterialButton>(R.id.submit_button)?.setOnClickListener {
-            upsertRequest(category, latLng)
+            upsertRequest(categoryId, latLng)
         }
 
         // Прослушивание ответа добавленных
         addRequestListener()
+    }
+
+    protected open fun getCategoryId(): Int {
+        return args.category.id
+    }
+
+    protected open fun getLatLng(): LatLng {
+        return args.latLng
     }
 
     private fun addRequestListener() {
@@ -139,19 +147,19 @@ class AddMessageFragment : BaseFragment() {
                 }
                 is Resource.Success -> {
                     hideProgressBar(add_request_progress)
-                    Snackbar.make(requireView(), "Заявка успешно добавлена", 1000).show()
+                    Snackbar.make(requireView(), "Успешно", 2000).show()
                     // Переход к главному меню
                     findNavController().popBackStack(R.id.home_dest, true)
                 }
                 is Resource.Error -> {
                     hideProgressBar(add_request_progress)
-                    Snackbar.make(requireView(), "Error: ${resource.message}", 1000).show()
+                    Snackbar.make(requireView(), "Ошибка: ${resource.message}", 2000).show()
                 }
             }
         })
     }
 
-    private fun upsertRequest(category: Category, latLng: LatLng) {
+    protected open fun upsertRequest(categoryId: Int, latLng: LatLng) {
         if (bitmap == null) {
             Snackbar.make(requireView(), getString(R.string.add_photo), 2000).show()
         } else if (title_edit_text.text.toString() == ""
@@ -160,11 +168,15 @@ class AddMessageFragment : BaseFragment() {
         ) {
             Snackbar.make(requireView(), getString(R.string.enter_empty_field), 2000).show()
         } else {
-            requestViewModel.insertRequest(getRequest(category.id, latLng), bitmap!!)
+            upsert(categoryId, latLng)
         }
     }
 
-    private fun getRequest(categoryId: Int, latLng: LatLng): RequestFirebase {
+    protected open fun upsert(categoryId: Int, latLng: LatLng) {
+        requestViewModel.upsertRequest(getRequest(categoryId, latLng), bitmap!!)
+    }
+
+    protected fun getRequest(categoryId: Int, latLng: LatLng): RequestFirebase {
         return RequestFirebase(
             title_edit_text.text.toString(),
             date_edit_text.text.toString(),
@@ -222,13 +234,17 @@ class AddMessageFragment : BaseFragment() {
                 }
                 GALLERY_REQUEST_CODE -> {
                     val contentUri = data?.data!!
-                    val source =
-                        ImageDecoder.createSource(requireContext().contentResolver, contentUri)
-                    bitmap = ImageDecoder.decodeBitmap(source)
+                    bitmap = getBitmapFromUri(contentUri)
                     photoImage.setImageBitmap(bitmap)
                 }
             }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    protected fun getBitmapFromUri(uri: Uri): Bitmap {
+        val source = ImageDecoder.createSource(requireContext().contentResolver, uri)
+        return ImageDecoder.decodeBitmap(source)
     }
 
 }

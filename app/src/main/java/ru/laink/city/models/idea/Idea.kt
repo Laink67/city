@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.laink.city.util.Constants
 import ru.laink.city.util.Constants.Companion.STATUS_IN_DEVELOPING
+import java.util.*
 
 @Entity(
     tableName = "ideas"

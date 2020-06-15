@@ -131,6 +131,13 @@
         <deepLink
             android:id="@+id/deepLink2"
             app:uri="ru.laink.city.ui.fragments/OwnRequestsFragment" />
+        <action
+            android:id="@+id/action_own_requests_to_edit_request"
+            app:destination="@id/edit_request_dest"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/votingFragment"
@@ -172,5 +179,13 @@
         android:name="ru.laink.city.ui.fragments.SingleIdeaFragment"
         android:label="SingleIdeaFragment"
         tools:layout="@layout/idea_fragment" />
+    <fragment
+        android:id="@+id/edit_request_dest"
+        android:name="ru.laink.city.ui.fragments.EditMessageFragment"
+        android:label="Редактирование" >
+        <argument
+            android:name="request"
+            app:argType="ru.laink.city.models.request.Request" />
+    </fragment>
 
 </navigation>

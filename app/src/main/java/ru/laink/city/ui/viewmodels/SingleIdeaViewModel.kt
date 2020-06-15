@@ -21,4 +21,9 @@ class SingleIdeaViewModel(
         _ideaAnswer.postValue(ideaRepository.addToFirebaseById(idea))
     }
 
+//    fun update(idea: Idea) = viewModelScope.launch {
+//        _ideaAnswer.postValue(Resource.Loading())
+//        _ideaAnswer.postValue(ideaRepository.update(idea))
+//    }
+
 }

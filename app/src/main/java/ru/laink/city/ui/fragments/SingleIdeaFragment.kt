@@ -18,7 +18,7 @@ import ru.laink.city.ui.viewmodels.SingleIdeaViewModel
 import ru.laink.city.util.Resource
 import timber.log.Timber
 
-class SingleIdeaFragment : BaseFragment() {
+open class SingleIdeaFragment : BaseFragment() {
 
     private lateinit var ideaViewModel: SingleIdeaViewModel
 

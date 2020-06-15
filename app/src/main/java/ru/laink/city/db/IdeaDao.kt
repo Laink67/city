@@ -24,4 +24,5 @@ interface IdeaDao {
 
     @Query("DELETE FROM ideas WHERE id = :id")
     fun deleteById(id: Long)
+
 }

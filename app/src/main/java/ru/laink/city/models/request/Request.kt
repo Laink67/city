@@ -1,9 +1,11 @@
 package ru.laink.city.models.request
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
+import kotlinx.android.parcel.Parcelize
 import ru.laink.city.util.Constants.Companion.MARKER_DONE
 import ru.laink.city.util.Constants.Companion.MARKER_IN_DEVELOPING
 import ru.laink.city.util.Constants.Companion.MARKER_REJECTED
@@ -14,6 +16,7 @@ import ru.laink.city.util.Constants.Companion.STATUS_REJECTED
 @Entity(
     tableName = "requests"
 )
+@Parcelize
 data class Request(
     @PrimaryKey
     val id: String,
@@ -26,7 +29,7 @@ data class Request(
     val categoryId: Int,
     val uri: String?,
     val type: Int
-) : ClusterItem {
+) : ClusterItem, Parcelable {
 
     override fun getPosition(): LatLng = LatLng(latitude, longitude)
 

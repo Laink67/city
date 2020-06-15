@@ -39,7 +39,11 @@ class RequestsViewModel(
         _resultUpsert.postValue(requestRepository.deleteRequest(request))
     }
 
-    fun insertRequest(requestFirebase: RequestFirebase, bitmap: Bitmap) =
+    fun upsertRequest(
+        requestFirebase: RequestFirebase,
+        bitmap: Bitmap,
+        documentId: String? = null
+    ) =
         viewModelScope.launch {
             _resultUpsert.postValue(Resource.Loading())
 
@@ -47,9 +51,10 @@ class RequestsViewModel(
             requestFirebase.type = classifyMessage(requestFirebase.description!!)
 
             _resultUpsert.postValue(
-                requestRepository.insertRequestFirebase(
+                requestRepository.upsertRequestFirebase(
                     requestFirebase,
-                    bitmap
+                    bitmap,
+                    documentId
                 )
             )
         }

@@ -88,25 +88,27 @@ class FirebaseRequestRepoImpl(
             }
         }
 
-    suspend fun insertRequestFirebase(
+    suspend fun upsertRequestFirebase(
         requestFirebase: RequestFirebase,
-        bitmap: Bitmap
+        bitmap: Bitmap,
+        documentId: String?
     ): Resource<Unit, Exception> =
         withContext(Dispatchers.IO) {
             try {
 
                 val firebaseUser = auth.currentUser
                 // Id документа для добавления заявки
-                val documentId = UUID.randomUUID()
+                val docId =
+                    documentId ?: UUID.randomUUID().toString()
                 // Путь до хранилища картинок определённого пользователя
-                val path = "${auth.uid}/$documentId.$IMAGE_EXPANSION"
+                val path = "${auth.uid}/$docId.$IMAGE_EXPANSION"
                 // Получение ссылки на хранилище
                 val storageReference = storage.getReference(path)
                 // Загрузка
                 storageReference.putBytes(getPhotoDataFromBitmap(bitmap).data!!)
 
                 if (firebaseUser != null) {
-                    firestoreCollection.document(documentId.toString()).set(
+                    firestoreCollection.document(docId).set(
                         requestFirebase.copy(
                             authorId =
                             firebaseUser.uid
